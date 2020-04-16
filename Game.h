@@ -114,19 +114,43 @@ private:
 	Weapon* weapon_;
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class Animal : public Coord_Object
+{
+public:
+	virtual int GetDamage() = 0; // it means returns the damage of that animal
+	virtual bool ReceiveDamage() = 0; // it means get other damage and returns (is_alive())
+	//т.к. мы наследуемся от координат, поэтому можем передавать в функции проверки на карте и просто указатель на животного
+};
+class Bison : public Animal
 {
 public:
 
 	Animal(float new_x, float new_y, float weight_, float height_);
 	~Animal();
 
-	int GetDamageWeapon();
-	void ChangeWeapon(TypeWeapon typeweapon);
-	void ChangeAction(HeroAction new_action);  //we have to check it before, 
+	virtual int GetDamage() override;
+	virtual bool ReceiveDamage() override;
+	void ChangeAction(AnimalAction new_action);  //we have to check it before, 
 
 private:
 	int health_;
-	HeroAction action_;
-	Weapon* weapon_;
+	AnimalAction action_;
+	int damage_;
 };

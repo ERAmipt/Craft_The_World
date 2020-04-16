@@ -10,6 +10,14 @@ enum class HeroAction {
 	ClimbDown,
 	Attack
 };
+enum class AnimalAction {
+	Stay = 0,
+	GoRight,
+	GoLeft,
+	GoUp,
+	GoDown,
+	Attack
+};
 
 
 enum class TypeAnimal {
