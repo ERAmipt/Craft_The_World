@@ -1,5 +1,5 @@
 #pragma once
-enum class HeroAction {
+enum class TypeHeroAction {
 	Nothing = 0,
 	GoingHome,
 	MoveRight,
@@ -10,7 +10,7 @@ enum class HeroAction {
 	ClimbDown,
 	Attack
 };
-enum class AnimalAction {
+enum class TypeAnimalAction {
 	Stay = 0,
 	GoRight,
 	GoLeft,
@@ -63,7 +63,7 @@ enum class TypePickax {
 
 
 
-
+//эти константы на тебе
 enum class StatusBlock {
 	Empty = 0,
 	Ground
@@ -81,7 +81,7 @@ enum class BusySide {
 	RightUp, RightDown,
 	LeftUp, LeftDown
 };
-
+//вот они были для map, теперь надо вставлять Tilemap
 
 
 
@@ -95,4 +95,8 @@ const int BLOCK_Y = 30;
 const int COUNT_BLOCKS_X_ = 198;
 const int COUNT_BLOCKS_Y_ = 108;
 
-const int MAX_HEALTH_START = 10;
+
+enum class TypeMaxHealth {
+	HERO_START = 10,
+	BISON = 10
+};

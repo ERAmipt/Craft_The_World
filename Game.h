@@ -106,11 +106,11 @@ public:
 
 	int GetDamageWeapon();
 	void ChangeWeapon(TypeWeapon typeweapon);
-	void ChangeAction(HeroAction new_action);  //we have to check it before, 
+	void ChangeAction(TypeHeroAction new_action);  //we have to check it before, 
 
 private:
 	int health_;
-	HeroAction action_;
+	TypeHeroAction action_;
 	Weapon* weapon_;
 };
 
@@ -134,23 +134,24 @@ private:
 class Animal : public Coord_Object
 {
 public:
+	Animal(float new_x, float new_y, int weight_, int height_);
 	virtual int GetDamage() = 0; // it means returns the damage of that animal
-	virtual bool ReceiveDamage() = 0; // it means get other damage and returns (is_alive())
+	virtual bool ReceiveDamage(int) = 0; // it means get other damage and returns (is_alive())
+	virtual void ChangeAction(TypeAnimalAction new_action) = 0;
 	//т.к. мы наследуемся от координат, поэтому можем передавать в функции проверки на карте и просто указатель на животного
 };
 class Bison : public Animal
 {
 public:
 
-	Bison(float new_x, float new_y, float weight_, float height_);
-	~Bison();
+	Bison(float new_x, float new_y, int weight_, int height_);
 
-	virtual int GetDamage() override;
-	virtual bool ReceiveDamage() override;
-	void ChangeAction(AnimalAction new_action);  //we have to check it before, 
+	int GetDamage() override;
+	bool ReceiveDamage(int delivered_damage) override;
+	void ChangeAction(TypeAnimalAction new_action) override;  //we have to check it before, 
 
 private:
 	int health_;
-	AnimalAction action_;
-	int damage_;
+	TypeAnimalAction action_;
+	const int damage_ = 2;
 };

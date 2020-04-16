@@ -36,7 +36,7 @@ Coord_Object::Coord_Object(float new_x, float new_y, int new_weight, int new_hei
 
 Hero::Hero(float new_x, float new_y, int weight_, int height_):
 	Coord_Object(new_x, new_y, weight_, height_),
-	health_(MAX_HEALTH_START),
+	health_(static_cast<int>(TypeMaxHealth::HERO_START)),
 	weapon_(new Weapon)
 {}
 Hero::~Hero()
@@ -68,7 +68,45 @@ void Hero::ChangeWeapon(TypeWeapon typeweapon)
 		break;
 	}
 }
-void Hero::ChangeAction(HeroAction new_action)
+void Hero::ChangeAction(TypeHeroAction new_action)
 {
+	//проверка на карте
 
+	action_ = new_action;
+}
+
+
+
+
+
+
+
+
+Animal::Animal(float new_x, float new_y, int weight_, int height_):
+	Coord_Object(new_x, new_y, weight_, height_)
+{}
+
+
+Bison::Bison(float new_x, float new_y, int weight_, int height_):
+	Animal(new_x, new_y, weight_, height_),
+	health_(static_cast<int>(TypeMaxHealth::BISON)),
+	action_(TypeAnimalAction::Stay)
+{}
+int Bison::GetDamage()
+{
+	return damage_;
+}
+bool Bison::ReceiveDamage(int delivered_damage)
+{
+	health_ -= delivered_damage;
+
+	if (health_ < 0)
+		return false;
+	return true;
+}
+void Bison::ChangeAction(TypeAnimalAction new_action)
+{
+	//какая-то проверка в map
+
+	action_ = new_action;
 }

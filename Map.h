@@ -1,4 +1,6 @@
 #pragma once
+// на тебе, пиши как хочешь)
+
 /*
 namespace M {
 	class Block
