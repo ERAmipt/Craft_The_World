@@ -60,33 +60,37 @@ class Coord_Object
 public:
 	explicit Coord_Object(float new_x, float new_y, int weight_, int height_);
 
-	void ChangeCoord(TypeHeroAction action);
-	void ChangeSpeed(TypeHeroAction action);
+	void ChangePosition(TypeHeroAction new_action);
 
 	//мне это не нравится, может все таки public?
-	float get_x() const
+	float GetX() const
 	{
 		return x_;
 	}
-	float get_y() const
+	float GetY() const
 	{
 		return y_;
 	}
-	float get_speed_x() const
+	float GetSpeedX() const
 	{
 		return speed_x_;
 	}
-	float get_spped_y() const
+	float GetSppedY() const
 	{
 		return speed_y_;
 	}
-	int get_weight() const
+	int GetWeight() const
 	{
 		return weight_;
 	}
-	int get_height() const
+	int GetHeight() const
 	{
 		return height_;
+	}
+
+	TypeHeroAction GetAction() const 
+	{
+		return action_;
 	}
 
 private:
@@ -98,6 +102,7 @@ private:
 	int weight_;
 	int height_;
 
+	TypeHeroAction action_;
 	Coord_Object();
 };
 class Image_Object : public Coord_Object
@@ -106,11 +111,12 @@ public:
 
 	Image_Object(std::string file, float new_x, float new_y, int weight_, int height_);
 	sf::Sprite GetSprite();
-	void ChangeSprite(TypeHeroAction new_action);
+	void ChangeSprite(TypeHeroAction new_action); //ПЛОХОЕ МЕСТО
 	void UpdateSprite(); //update current_frame, 
 
 private:
 
+	sf::Image image_;
 	sf::Texture texture_;
 	sf::Sprite sprite_;
 	double current_frame_;   //определенная картинка при каком-то движении, будет меняться со временем - отображать какую именно картинку
@@ -126,11 +132,11 @@ public:
 
 	int GetDamageWeapon();
 	void ChangeWeapon(TypeWeapon typeweapon);
-	void ChangeAction(TypeHeroAction new_action);  //we have to check it before, 
+	void DoAction(TypeHeroAction new_action);  //we have to check it before, 
 
 private:
+
 	int health_;
-	TypeHeroAction action_;
 	Weapon* weapon_;
 
 	
