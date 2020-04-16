@@ -1,5 +1,5 @@
 #include "Game.h"
-#define JOJOJO 4
+#define JOJOJO 2
 Coord_Object::Coord_Object()
 {
 	assert(0);
