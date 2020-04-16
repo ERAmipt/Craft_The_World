@@ -26,37 +26,6 @@ Coord_Object::Coord_Object(float new_x, float new_y, float new_weight, float new
 
 
 
-Block::Block():
-	sprite_(),
-	status_block_(StatusBlock::Empty),
-	status_drawing_(StatusDrawing::Nothing)
-{}
-Block::Block(StatusBlock new_status, StatusDrawing new_status_drawing, sf::Texture texture, sf::IntRect rect, float coord_x, float coord_y):
-	sprite_(),
-	status_block_(new_status),
-	status_drawing_(new_status_drawing)
-{
-	sprite_.setTexture(texture);
-	sprite_.setTextureRect(rect);
-	sprite_.setPosition(coord_x, coord_y);
-}
-sf::Sprite Block::GetBlock()
-{
-	return sprite_;
-}
-void Block::ChangeBlock(sf::IntRect rect, StatusBlock new_status, StatusDrawing new_status_drawing)
-{
-	sprite_.setTextureRect(rect);
-	status_block_ = new_status;
-	status_drawing_ = new_status_drawing;
-}
-bool Block::isEmpty()
-{
-	if (status_block_ == StatusBlock::Empty)
-		return true;
-	return false;
-}
-
 
 
 
