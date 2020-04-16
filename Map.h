@@ -1,4 +1,5 @@
 #pragma once
+/*
 namespace M {
 	class Block
 	{
@@ -73,3 +74,32 @@ bool M::Block::isEmpty()
 		return true;
 	return false;
 }
+
+
+
+
+
+
+Map::Map(std::string file, sf::RenderWindow* window):
+	blocks_(),
+	window_(window),
+
+	image_(),
+	texture_()
+{
+	image_.loadFromFile (file);
+	image_.createMaskFromColor(sf::Color(255, 255, 255));
+
+	texture_.loadFromImage(image_);
+
+	//GetStartBlocks();
+}
+void Map::GetStartBlocks()
+{
+	//пилить
+}
+BusySide Map::CheckSides(Coord_Object* object)
+{
+	//пилить
+}
+*/

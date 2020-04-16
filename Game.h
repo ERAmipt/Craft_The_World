@@ -58,7 +58,7 @@ private:
 class Coord_Object
 {
 public:
-	explicit Coord_Object(float new_x, float new_y, float weight_, float height_);
+	explicit Coord_Object(float new_x, float new_y, int weight_, int height_);
 
 	float get_x()
 	{
@@ -76,11 +76,11 @@ public:
 	{
 		return speed_y_;
 	}
-	float get_weight()
+	int get_weight()
 	{
 		return weight_;
 	}
-	float get_height()
+	int get_height()
 	{
 		return height_;
 	}
@@ -101,7 +101,7 @@ class Hero : public Coord_Object
 {
 public:
 
-	Hero(float new_x, float new_y, float weight_, float height_);
+	Hero(float new_x, float new_y, int weight_, int height_);
 	~Hero();
 
 	int GetDamageWeapon();
@@ -142,8 +142,8 @@ class Bison : public Animal
 {
 public:
 
-	Animal(float new_x, float new_y, float weight_, float height_);
-	~Animal();
+	Bison(float new_x, float new_y, float weight_, float height_);
+	~Bison();
 
 	virtual int GetDamage() override;
 	virtual bool ReceiveDamage() override;

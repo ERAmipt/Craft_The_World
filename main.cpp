@@ -10,7 +10,17 @@
 
 //поэтому ЗАГЛЯНИ В Updates.txt (с вижуалки открой)
 
+
+//ВАЖНО ЕЩЕ:
+//Пока выход из проги во вермя работы на Escape, НО проверь, работает ли прога, скорее всего нет... Есть пару версий как избежать этой ситуации
+//1)Ты подстраиваешься и тогда https://www.youtube.com/watch?v=on7U-90gfrI делаешь здесь.
+//2)Ты сам доставляешь прогу в рабочий файл в репозиторий и говоришь, что делать мне, просто у меня через NuGet еще раньше был поставлен
+//У меня вот эта написанная прога работает(ну просто экран), я ее свзяал. НО: идет ли реально синхронизация кода , а именно скачка с гитхаба еще ж не проверено.
+//Сообщи когда прочитаешь, уже что-то поделаешь, жду)
+
+bool Event();
 bool CheckKeyboard();
+bool CheckMouse();
 
 
 int main()
@@ -19,7 +29,7 @@ int main()
 
     while (window.isOpen())
     {
-        if (CheckKeyboard())
+        if (Event())
             window.close();
 
 
@@ -35,7 +45,10 @@ int main()
 
 bool Event()
 {
+    if (CheckKeyboard() || CheckMouse())
+        return true;
 
+    return false;
 }
 
 bool CheckKeyboard()
@@ -45,5 +58,10 @@ bool CheckKeyboard()
 
 
 
+    return false;
+}
+
+bool CheckMouse()
+{
     return false;
 }
