@@ -60,27 +60,31 @@ class Coord_Object
 public:
 	explicit Coord_Object(float new_x, float new_y, int weight_, int height_);
 
-	float get_x()
+	void ChangeCoord(TypeHeroAction action);
+	void ChangeSpeed(TypeHeroAction action);
+
+	//мне это не нравится, может все таки public?
+	float get_x() const
 	{
 		return x_;
 	}
-	float get_y()
+	float get_y() const
 	{
 		return y_;
 	}
-	float get_speed_x()
+	float get_speed_x() const
 	{
 		return speed_x_;
 	}
-	float get_spped_y()
+	float get_spped_y() const
 	{
 		return speed_y_;
 	}
-	int get_weight()
+	int get_weight() const
 	{
 		return weight_;
 	}
-	int get_height()
+	int get_height() const
 	{
 		return height_;
 	}
@@ -96,12 +100,28 @@ private:
 
 	Coord_Object();
 };
-
-class Hero : public Coord_Object
+class Image_Object : public Coord_Object
 {
 public:
 
-	Hero(float new_x, float new_y, int weight_, int height_);
+	Image_Object(std::string file, float new_x, float new_y, int weight_, int height_);
+	sf::Sprite GetSprite();
+	void ChangeSprite(TypeHeroAction new_action);
+	void UpdateSprite(); //update current_frame, 
+
+private:
+
+	sf::Texture texture_;
+	sf::Sprite sprite_;
+	double current_frame_;   //определенная картинка при каком-то движении, будет меняться со временем - отображать какую именно картинку
+							 //использовать для рисования этого действия
+};
+
+class Hero : public Image_Object
+{
+public:
+
+	Hero(std::string, float new_x, float new_y, int weight_, int height_);
 	~Hero();
 
 	int GetDamageWeapon();
@@ -112,6 +132,8 @@ private:
 	int health_;
 	TypeHeroAction action_;
 	Weapon* weapon_;
+
+	
 };
 
 

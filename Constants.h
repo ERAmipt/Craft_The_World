@@ -63,7 +63,7 @@ enum class TypePickax {
 
 
 
-//эти константы на тебе
+/*эти константы на тебе
 enum class StatusBlock {
 	Empty = 0,
 	Ground
@@ -81,8 +81,8 @@ enum class BusySide {
 	RightUp, RightDown,
 	LeftUp, LeftDown
 };
-//вот они были для map, теперь надо вставлять Tilemap
-
+вот они были для map, теперь надо вставлять Tilemap
+*/
 
 
 
