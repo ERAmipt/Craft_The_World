@@ -1,49 +1,29 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "Game.h"
-//если что я чуть пописал)
-
-//мы должны продумать соглашение о названиях:
-//что я предлагаю: enum class называть допустим с какаго-то константного слова - допустим Type... (TypeWeapon, TypeAction и т.д.)
-//Насчет букв маленьких и больших - допустим, ф-ии с большими буквами названия (CheckAction, DoOperation...)
-//А вот переменные например наоборот can_i_do_this, sprite_hero and so on...
-//Важно придумать как мы будем договариваться о том, как чекать апдейты - либо говорить что должно готовиться и создать отдельный файл,
-//в котором и будем писать типо Map в Map.h сделано с гравитацией, либо просто коментить кучу кода, но это все равно хуже
-
-//поэтому ЗАГЛЯНИ В Updates.txt (с вижуалки открой)
-
-
-//ВАЖНО ЕЩЕ:
-//Пока выход из проги во время работы на Escape, НО проверь, работает ли прога, скорее всего нет... Есть пару версий как избежать этой ситуации
-//1)Ты подстраиваешься и тогда https://www.youtube.com/watch?v=on7U-90gfrI делаешь здесь.
-//2)Ты сам доставляешь прогу в рабочий файл в репозиторий и говоришь, что делать мне, просто у меня через NuGet еще раньше был поставлен sfml
-//У меня вот эта написанная прога работает(ну просто экран), я ее свзяал. НО: идет ли реально синхронизация кода , а именно скачка с гитхаба еще ж не проверено.
-//Сообщи когда прочитаешь, уже что-то поделаешь, жду)
-
-//map.h на тебе (пока)
-
-
-
-
-//предлагаю сделать main_time глобальным, потому что он везде - в изменении спрайта от времени, для обработки когда появляются герои
-//и т.п., оно будет все чаще и чаще, ведь еще есть сон, еда, все это завсит от времени. Дольше все передавать. Не пострадает понимаение?
-bool Event();
+bool AnalyseEvent(sf::Event event);
 bool CheckKeyboard();
 bool CheckMouse();
 
-
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1920, 1080), "CRAFT THE WORLD");
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "CRAFT THE WORLD", sf::Style::Fullscreen);
+    sf::CircleShape shape(100.f);
 
     while (window.isOpen())
-    {
-        if (Event())
-            window.close();
-
+    {   
+        sf::Event event;
+        while (window.pollEvent(event))
+        {   
+            if (!AnalyseEvent(event)) {
+                window.close();
+                break;
+            }
+        }
 
 
         window.clear();
+        window.draw(shape);
         window.display();
     }
 
@@ -51,13 +31,11 @@ int main()
 }
 
 
-
-bool Event()
+bool AnalyseEvent(sf::Event event) 
 {
-    if (CheckKeyboard() || CheckMouse())
-        return true;
-
-    return false;
+    if (event.type == sf::Event::Closed)
+        return false;
+    return true;
 }
 
 bool CheckKeyboard()
