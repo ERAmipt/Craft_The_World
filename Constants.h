@@ -1,5 +1,4 @@
 #pragma once
-#define LOLOLOL 5
 enum class HeroAction {
 	Nothing = 0,
 	GoingHome,
@@ -11,6 +10,16 @@ enum class HeroAction {
 	ClimbDown,
 	Attack
 };
+
+
+enum class TypeAnimal {
+	Nothing = 0,
+	Bison,
+	Boar,
+	Monster
+};
+
+
 
 enum class TypeWeapon {
 	Nothing = 0,
@@ -40,6 +49,12 @@ enum class TypePickax {
 	SilverPickax,
 	GoldenPickax
 };
+
+
+
+
+
+
 
 enum class StatusBlock {
 	Empty = 0,

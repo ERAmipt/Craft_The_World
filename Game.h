@@ -114,3 +114,19 @@ private:
 	Weapon* weapon_;
 };
 
+class Animal : public Coord_Object
+{
+public:
+
+	Animal(float new_x, float new_y, float weight_, float height_);
+	~Animal();
+
+	int GetDamageWeapon();
+	void ChangeWeapon(TypeWeapon typeweapon);
+	void ChangeAction(HeroAction new_action);  //we have to check it before, 
+
+private:
+	int health_;
+	HeroAction action_;
+	Weapon* weapon_;
+};
