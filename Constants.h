@@ -1,5 +1,5 @@
 #pragma once
-#define HAHAHAHAHAHAH 5
+#define LOLOLOL 5
 enum class HeroAction {
 	Nothing = 0,
 	GoingHome,
