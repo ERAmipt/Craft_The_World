@@ -1,7 +1,6 @@
 #pragma once
-#include "Start_Sprites.h"
-enum class TypeAction {
-	Stay = 0,
+enum class TypeHeroAction {
+	Nothing = 0,
 	GoingHome,
 	MoveRight,
 	MoveLeft,
