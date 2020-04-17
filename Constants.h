@@ -1,5 +1,4 @@
 #pragma once
-#include "Start_Sprites.h"
 
 enum class TypeAction {
 	Stay = 0,

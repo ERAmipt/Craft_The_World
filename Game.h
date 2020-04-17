@@ -1,5 +1,6 @@
 #pragma once
 #include "Constants.h"
+#include "Start_Sprites.h"
 #include "Map.h"
 #include <cassert>
 #include <SFML/Graphics.hpp>
@@ -112,7 +113,7 @@ public:
 
 	Image_Object(std::string file, float new_x, float new_y, int weight_, int height_);
 	sf::Sprite GetSprite();
-	void ChangeSprite(sf::IntRect&&); 
+	void ChangeSprite(const int* new_sprite); 
 	void UpdateSprite(); //update current_frame, 
 
 private:
@@ -134,7 +135,7 @@ public:
 	int GetDamageWeapon();
 	void ChangeWeapon(TypeWeapon typeweapon);
 	void DoAction(TypeAction new_action);  //we have to check it before, 
-	sf::IntRect FindSprite(TypeAction new_action);
+	const int* FindSprite(TypeAction new_action) const;
 
 private:
 

@@ -70,10 +70,10 @@ sf::Sprite Image_Object::GetSprite()
 {
 	return sprite_;
 }
-void Image_Object::ChangeSprite(sf::IntRect&& new_rect)
+void Image_Object::ChangeSprite(const int* new_sprite)
 {
 	current_frame_ = 0;
-	sprite_.setTextureRect(new_rect);
+	sprite_.setTextureRect(sf::IntRect(new_sprite[0], new_sprite[1], new_sprite[2], new_sprite[3]));
 }
 void Image_Object::UpdateSprite()
 {
@@ -135,12 +135,12 @@ void Hero::DoAction(TypeAction new_action)
 
 	if (this->GetAction() != new_action) {
 		this->ChangeAction(new_action);
-		this->ChangeSprite(std::move(FindSprite(new_action)));
+		this->ChangeSprite(FindSprite(new_action));
 	}
 	else
 		this->UpdateSprite();
 }
-sf::IntRect Hero::FindSprite(TypeAction new_action)
+const int* Hero::FindSprite(TypeAction new_action) const
 {
 	switch (new_action)
 	{
