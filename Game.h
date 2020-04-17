@@ -61,6 +61,7 @@ public:
 	explicit Coord_Object(float new_x, float new_y, int weight_, int height_);
 
 	void ChangePosition(TypeAction new_action);
+	void ChangeAction(TypeAction new_action);
 
 	//мне это не нравится, может все таки public?
 	float GetX() const
@@ -111,7 +112,7 @@ public:
 
 	Image_Object(std::string file, float new_x, float new_y, int weight_, int height_);
 	sf::Sprite GetSprite();
-	void ChangeSprite(TypeAction new_action); 
+	void ChangeSprite(sf::IntRect&&); 
 	void UpdateSprite(); //update current_frame, 
 
 private:
@@ -133,6 +134,7 @@ public:
 	int GetDamageWeapon();
 	void ChangeWeapon(TypeWeapon typeweapon);
 	void DoAction(TypeAction new_action);  //we have to check it before, 
+	sf::IntRect FindSprite(TypeAction new_action);
 
 private:
 

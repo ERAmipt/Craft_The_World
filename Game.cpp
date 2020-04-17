@@ -12,14 +12,14 @@ Coord_Object::Coord_Object(float new_x, float new_y, int new_weight, int new_hei
 	weight_(new_weight),
 	height_(new_height),
 
-	action_(TypeAction::Nothing)
+	action_(TypeAction::Stay)
 {}
 void Coord_Object::ChangePosition(TypeAction new_action)
 {
 	if (action_ != new_action) {
 		switch (action_)
 		{
-		case TypeAction::Nothing:
+		case TypeAction::Stay:
 			break;
 		case TypeAction::GoingHome:
 			break;
@@ -46,6 +46,10 @@ void Coord_Object::ChangePosition(TypeAction new_action)
 		y_ += speed_y_;
 	}
 }
+void Coord_Object::ChangeAction(TypeAction new_action)
+{
+	action_ = new_action;
+}
 
 
 
@@ -57,7 +61,7 @@ Image_Object::Image_Object(std::string file, float new_x, float new_y, int weigh
 	current_frame_(0)
 {
 	image_.loadFromFile(file);
-	//setColorMask
+	image_.createMaskFromColor(sf::Color(255, 255, 255));
 	texture_.loadFromImage(image_);
 	sprite_.setTexture(texture_);
 	sprite_.setPosition(new_x, new_y);
@@ -66,53 +70,16 @@ sf::Sprite Image_Object::GetSprite()
 {
 	return sprite_;
 }
-void Image_Object::ChangeSprite(TypeAction new_action)
+void Image_Object::ChangeSprite(sf::IntRect&& new_rect)
 {
 	current_frame_ = 0;
-	//начальный спрайт всавляем можно сделать enum из enum-ов, либо просто массив из sf::IntRect
-	//который потом и вставляется в sprite_.setTextureRect(sf::IntRect)
-	switch (new_action)
-	{
-	case TypeAction::Nothing:
-		break;
-	case TypeAction::GoingHome:
-		break;
-	case TypeAction::MoveRight:
-		break;
-	case TypeAction::MoveLeft:
-		break;
-	case TypeAction::Jump:
-		break;
-	case TypeAction::Fall:
-		break;
-	case TypeAction::ClimbUp:
-		break;
-	case TypeAction::ClimbDown:
-		break;
-	case TypeAction::Attack:
-		break;
-	default:
-		break;
-	}
+	sprite_.setTextureRect(new_rect);
 }
 void Image_Object::UpdateSprite()
 {
 	//current_frame_ += time * коэффициент
 	//sprite_.setTextureRect(sf::IntRect(  + коэффициент * static_cast<int>(current_frame_), , , );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -166,14 +133,46 @@ void Hero::DoAction(TypeAction new_action)
 	
 	this->ChangePosition(new_action);
 
-	if (this->GetAction() != new_action) 
-		this->ChangeSprite(new_action)
-		;
-	else
-		this->UpdateSprite()
-		;
-}
+	if (this->GetAction() != new_action) {
+		
+		this->ChangeSprite(std::move(FindSprite(new_action)));
+	}
 
+	else
+		this->UpdateSprite();
+}
+sf::IntRect Hero::FindSprite(TypeAction new_action)
+{
+	switch (new_action)
+	{
+	case TypeAction::Stay:
+		return Sprite_Hero_Stay;
+		break;
+	case TypeAction::GoingHome:
+		break;
+	case TypeAction::MoveRight:
+		return Sprite_Hero_MoveRight;
+		break;
+	case TypeAction::MoveLeft:
+		return Sprite_Hero_MoveLeft;
+		break;
+	case TypeAction::Jump:
+		return Sprite_Hero_Jump;
+		break;
+	case TypeAction::Fall:
+		return Sprite_Hero_Fall;
+		break;
+	case TypeAction::ClimbUp:
+		break;
+	case TypeAction::ClimbDown:
+		break;
+	case TypeAction::Attack:
+		break;
+	default:
+		break;
+	}
+	std::cerr << "Action wasn't found!\n";
+}
 
 
 
@@ -190,7 +189,7 @@ Animal::Animal(std::string file, float new_x, float new_y, int weight_, int heig
 Bison::Bison(std::string file, float new_x, float new_y, int weight_, int height_):
 	Animal(file, new_x, new_y, weight_, height_),
 	health_(static_cast<int>(TypeMaxHealth::BISON)),
-	action_(TypeAction::Nothing)
+	action_(TypeAction::Stay)
 {}
 int Bison::GetDamage()
 {

@@ -152,6 +152,7 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Start_Sprites.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

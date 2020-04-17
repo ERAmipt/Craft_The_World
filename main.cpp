@@ -9,7 +9,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "CRAFT THE WORLD", sf::Style::Fullscreen);    
     sf::Event event;
     M::Map map;
-    Hero first_hero("images/hero1.png", START_X, START_Y, HERO_WEIGHT, HERO_HEIGHT);
+    Hero first_hero("images/heroes.png", START_X, START_Y, HERO_WEIGHT, HERO_HEIGHT);
 
     while (window.isOpen())
     {   
