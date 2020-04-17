@@ -3,6 +3,7 @@
 #include "Game.h"
 
 double MAIN_TIME = 0;
+double CURRENT_TIME = 0;
 bool AnalyseEvent(sf::Event event, M::Map& map);
 
 int main()
@@ -18,7 +19,8 @@ int main()
     while (window.isOpen())
     {   
         //set new time
-        MAIN_TIME += main_clock.getElapsedTime().asMicroseconds();
+        CURRENT_TIME = main_clock.getElapsedTime().asMicroseconds();
+        MAIN_TIME += CURRENT_TIME;
         main_clock.restart();
         //MAIN_TIME is global
 
