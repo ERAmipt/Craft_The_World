@@ -60,7 +60,7 @@ class Coord_Object
 public:
 	explicit Coord_Object(float new_x, float new_y, int weight_, int height_);
 
-	void ChangePosition(TypeHeroAction new_action);
+	void ChangePosition(TypeAction new_action);
 
 	//мне это не нравится, может все таки public?
 	float GetX() const
@@ -88,7 +88,7 @@ public:
 		return height_;
 	}
 
-	TypeHeroAction GetAction() const 
+	TypeAction GetAction() const 
 	{
 		return action_;
 	}
@@ -102,7 +102,7 @@ private:
 	int weight_;
 	int height_;
 
-	TypeHeroAction action_;
+	TypeAction action_;
 	Coord_Object();
 };
 class Image_Object : public Coord_Object
@@ -111,7 +111,7 @@ public:
 
 	Image_Object(std::string file, float new_x, float new_y, int weight_, int height_);
 	sf::Sprite GetSprite();
-	void ChangeSprite(TypeHeroAction new_action); //ПЛОХОЕ МЕСТО
+	void ChangeSprite(TypeAction new_action); 
 	void UpdateSprite(); //update current_frame, 
 
 private:
@@ -132,7 +132,7 @@ public:
 
 	int GetDamageWeapon();
 	void ChangeWeapon(TypeWeapon typeweapon);
-	void DoAction(TypeHeroAction new_action);  //we have to check it before, 
+	void DoAction(TypeAction new_action);  //we have to check it before, 
 
 private:
 
@@ -159,27 +159,27 @@ private:
 
 
 
-class Animal : public Coord_Object
+class Animal : public Image_Object
 {
 public:
-	Animal(float new_x, float new_y, int weight_, int height_);
+	Animal(std::string file, float new_x, float new_y, int weight_, int height_);
 	virtual int GetDamage() = 0; // it means returns the damage of that animal
 	virtual bool ReceiveDamage(int) = 0; // it means get other damage and returns (is_alive())
-	virtual void ChangeAction(TypeAnimalAction new_action) = 0;
+	virtual void ChangeAction(TypeAction new_action) = 0;
 	//т.к. мы наследуемся от координат, поэтому можем передавать в функции проверки на карте и просто указатель на животного
 };
 class Bison : public Animal
 {
 public:
 
-	Bison(float new_x, float new_y, int weight_, int height_);
+	Bison(std::string file, float new_x, float new_y, int weight_, int height_);
 
 	int GetDamage() override;
 	bool ReceiveDamage(int delivered_damage) override;
-	void ChangeAction(TypeAnimalAction new_action) override;  //we have to check it before, 
+	void ChangeAction(TypeAction new_action) override;  //we have to check it before, 
 
 private:
 	int health_;
-	TypeAnimalAction action_;
+	TypeAction action_;
 	const int damage_ = 2;
 };

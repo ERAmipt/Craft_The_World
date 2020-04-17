@@ -12,30 +12,30 @@ Coord_Object::Coord_Object(float new_x, float new_y, int new_weight, int new_hei
 	weight_(new_weight),
 	height_(new_height),
 
-	action_(TypeHeroAction::Nothing)
+	action_(TypeAction::Nothing)
 {}
-void Coord_Object::ChangePosition(TypeHeroAction new_action)
+void Coord_Object::ChangePosition(TypeAction new_action)
 {
 	if (action_ != new_action) {
 		switch (action_)
 		{
-		case TypeHeroAction::Nothing:
+		case TypeAction::Nothing:
 			break;
-		case TypeHeroAction::GoingHome:
+		case TypeAction::GoingHome:
 			break;
-		case TypeHeroAction::MoveRight:
+		case TypeAction::MoveRight:
 			break;
-		case TypeHeroAction::MoveLeft:
+		case TypeAction::MoveLeft:
 			break;
-		case TypeHeroAction::Jump:
+		case TypeAction::Jump:
 			break;
-		case TypeHeroAction::Fall:
+		case TypeAction::Fall:
 			break;
-		case TypeHeroAction::ClimbUp:
+		case TypeAction::ClimbUp:
 			break;
-		case TypeHeroAction::ClimbDown:
+		case TypeAction::ClimbDown:
 			break;
-		case TypeHeroAction::Attack:
+		case TypeAction::Attack:
 			break;
 		default:
 			break;
@@ -66,30 +66,30 @@ sf::Sprite Image_Object::GetSprite()
 {
 	return sprite_;
 }
-void Image_Object::ChangeSprite(TypeHeroAction new_action)
+void Image_Object::ChangeSprite(TypeAction new_action)
 {
 	current_frame_ = 0;
 	//начальный спрайт всавляем можно сделать enum из enum-ов, либо просто массив из sf::IntRect
 	//который потом и вставляется в sprite_.setTextureRect(sf::IntRect)
 	switch (new_action)
 	{
-	case TypeHeroAction::Nothing:
+	case TypeAction::Nothing:
 		break;
-	case TypeHeroAction::GoingHome:
+	case TypeAction::GoingHome:
 		break;
-	case TypeHeroAction::MoveRight:
+	case TypeAction::MoveRight:
 		break;
-	case TypeHeroAction::MoveLeft:
+	case TypeAction::MoveLeft:
 		break;
-	case TypeHeroAction::Jump:
+	case TypeAction::Jump:
 		break;
-	case TypeHeroAction::Fall:
+	case TypeAction::Fall:
 		break;
-	case TypeHeroAction::ClimbUp:
+	case TypeAction::ClimbUp:
 		break;
-	case TypeHeroAction::ClimbDown:
+	case TypeAction::ClimbDown:
 		break;
-	case TypeHeroAction::Attack:
+	case TypeAction::Attack:
 		break;
 	default:
 		break;
@@ -157,7 +157,7 @@ void Hero::ChangeWeapon(TypeWeapon typeweapon)
 		break;
 	}
 }
-void Hero::DoAction(TypeHeroAction new_action)
+void Hero::DoAction(TypeAction new_action)
 {
 	//проверка на карте
 	//return нудо TypeHeroAction, в котором будет заложено ЧТО делать надо персонажу
@@ -181,15 +181,16 @@ void Hero::DoAction(TypeHeroAction new_action)
 
 
 
-Animal::Animal(float new_x, float new_y, int weight_, int height_):
-	Coord_Object(new_x, new_y, weight_, height_)
+Animal::Animal(std::string file, float new_x, float new_y, int weight_, int height_):
+	Image_Object(file, new_x, new_y, weight_, height_)
 {}
 
 
-Bison::Bison(float new_x, float new_y, int weight_, int height_):
-	Animal(new_x, new_y, weight_, height_),
+
+Bison::Bison(std::string file, float new_x, float new_y, int weight_, int height_):
+	Animal(file, new_x, new_y, weight_, height_),
 	health_(static_cast<int>(TypeMaxHealth::BISON)),
-	action_(TypeAnimalAction::Stay)
+	action_(TypeAction::Nothing)
 {}
 int Bison::GetDamage()
 {
@@ -203,9 +204,9 @@ bool Bison::ReceiveDamage(int delivered_damage)
 		return false;
 	return true;
 }
-void Bison::ChangeAction(TypeAnimalAction new_action)
+void Bison::ChangeAction(TypeAction new_action)
 {
 	//какая-то проверка в map
 
-	action_ = new_action;
+	this->action_ = new_action;
 }
