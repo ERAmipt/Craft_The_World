@@ -1,6 +1,8 @@
 #pragma once
-enum class TypeHeroAction {
-	Nothing = 0,
+#include "Start_Sprites.h"
+
+enum class TypeAction {
+	Stay = 0,
 	GoingHome,
 	MoveRight,
 	MoveLeft,
@@ -9,14 +11,6 @@ enum class TypeHeroAction {
 	ClimbUp,
 	ClimbDown,
 	Attack
-};
-
-
-enum class TypeAnimal {
-	Nothing = 0,
-	Bison,
-	Boar,
-	Monster
 };
 
 

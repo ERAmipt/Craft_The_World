@@ -134,10 +134,9 @@ void Hero::DoAction(TypeAction new_action)
 	this->ChangePosition(new_action);
 
 	if (this->GetAction() != new_action) {
-		
+		this->ChangeAction(new_action);
 		this->ChangeSprite(std::move(FindSprite(new_action)));
 	}
-
 	else
 		this->UpdateSprite();
 }
@@ -185,7 +184,7 @@ Animal::Animal(std::string file, float new_x, float new_y, int weight_, int heig
 {}
 
 
-
+//NOT DONE!!!!!-----------------------------------------------------------------------
 Bison::Bison(std::string file, float new_x, float new_y, int weight_, int height_):
 	Animal(file, new_x, new_y, weight_, height_),
 	health_(static_cast<int>(TypeMaxHealth::BISON)),
@@ -209,3 +208,5 @@ void Bison::ChangeAction(TypeAction new_action)
 
 	this->action_ = new_action;
 }
+
+//UNTIL THIS---------------------------------------------------------------------------

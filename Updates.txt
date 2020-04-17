@@ -1,11 +1,22 @@
-16/04/2020
+Updates:
+
+---------------------------16/04/2020---------------------------------
+
+News: The Process has been started
+
 Mark
  + wrote a lot of code
 Ron
  + fixed main.cpp
  + started to write Map.h
-17/04/2020
+
+---------------------------17/04/2020---------------------------------
+
 Suggestions: 1)Map& should be translated as Map* - it's more faster
+             2)Check Game.h - 66 string - what do you think about it?
+
 Mark:
- - check constants.h
  - added some pictures that will be used
+ - added global time - i think it's more useful than often pull it to other functions
+ - added Start_Sprites.h that contains every sprites
+ - 

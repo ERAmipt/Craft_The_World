@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "Game.h"
 
+double MAIN_TIME = 0;
 bool AnalyseEvent(sf::Event event, M::Map& map);
 
 int main()
@@ -11,9 +12,16 @@ int main()
     M::Map map;
     Hero first_hero("images/heroes.png", START_X, START_Y, HERO_WEIGHT, HERO_HEIGHT);
 
+
+    sf::Clock main_clock;
+
     while (window.isOpen())
     {   
-       
+        //set new time
+        MAIN_TIME += main_clock.getElapsedTime().asMicroseconds();
+        main_clock.restart();
+        //MAIN_TIME is global
+
         while (window.pollEvent(event))
         {   
             if (!AnalyseEvent(event, map)) {
