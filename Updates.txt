@@ -14,6 +14,8 @@ Ron
 
 Suggestions: 1)Map& should be translated as Map* - it's more faster
              2)Check Game.h - 66 string - what do you think about it?
+             3)I thinks we have to make several folders in the repos folder in order to
+             simplify searching for the exactly file
 
 Mark:
  - added some pictures that will be used
