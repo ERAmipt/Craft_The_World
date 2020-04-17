@@ -1,5 +1,5 @@
 #pragma once
-enum class TypeHeroAction {
+enum class TypeAction {
 	Nothing = 0,
 	GoingHome,
 	MoveRight,
@@ -8,14 +8,6 @@ enum class TypeHeroAction {
 	Fall,
 	ClimbUp,
 	ClimbDown,
-	Attack
-};
-enum class TypeAnimalAction {
-	Stay = 0,
-	GoRight,
-	GoLeft,
-	GoUp,
-	GoDown,
 	Attack
 };
 
@@ -94,6 +86,12 @@ const int BLOCK_X = 30;
 const int BLOCK_Y = 30;
 const int COUNT_BLOCKS_X_ = 198;
 const int COUNT_BLOCKS_Y_ = 108;
+
+const int START_X = 100;
+const int START_Y = 100;
+
+const int HERO_WEIGHT = 22;
+const int HERO_HEIGHT = 30;
 
 
 enum class TypeMaxHealth {

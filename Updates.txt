@@ -1,11 +1,11 @@
-Visual doesn't represent Russia language correctly, so English only
-- means SOMEONE WROTE CODE
-+ means ANOTHERONE SEEN THIS CODE
-
-If you saw the - sign, then, rewrite it to the + sign, then I will know, that you checked my code
-
+16/04/2020
 Mark
  + wrote a lot of code
 Ron
- - fixed main.cpp
- - started to write Map.h
+ + fixed main.cpp
+ + started to write Map.h
+17/04/2020
+Suggestions: 1)Map& should be translated as Map* - it's more faster
+Mark:
+ - check constants.h
+ - added some pictures that will be used
