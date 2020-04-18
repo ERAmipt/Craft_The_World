@@ -33,9 +33,14 @@ int main()
             }
         }
         map.update(0, sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
-        window.setView(map.view());
-        std::cout << map.isSoft(sf::Mouse::getPosition()) << "\n";
 
+        printf("X: %d\nY: %d\nSoft: %d\n", 
+            map.AbsCoords(sf::Mouse::getPosition()).x,
+            map.AbsCoords(sf::Mouse::getPosition()).y,
+            map.isSoft(sf::Mouse::getPosition()));
+
+
+        window.setView(map.view());
         window.clear();
         window.draw(map);
         window.display();
