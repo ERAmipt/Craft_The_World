@@ -7,7 +7,9 @@ M::Map::Map(int map_number) :
 	vertices_(),
 	tileset_(),
 	tile_(M::MapTiles[map_number]),
-	view_(sf::FloatRect(0.f, 0.f, tile_.width(), tile_.height()))
+	view_(sf::FloatRect(0.f, 0.f, tile_.width(), tile_.height())),
+	cur_width_(2000),
+	cur_height_(2000)
 {
 	view_.reset(sf::FloatRect(0.f, 0.f, tile_.width(), tile_.height()));
 	// load the tileset texture
@@ -64,13 +66,10 @@ sf::Vector2u M::Map::AbsCoords(int x, int y) const {
 	assert(x >= 0);
 	assert(y >= 0);
 
-	const int size_x = 2000,
-		size_y = 2000;
-
-	double left = (view_.getCenter().x - size_x / 2);
-	double top =  (view_.getCenter().y - size_y / 2);
-	double cur_x = left + double(x) / M::WindowWidth * size_x;
-	double cur_y = top + double(y) / M::WindowHeight * size_y;
+	double left = (view_.getCenter().x - cur_width_ / 2);
+	double top =  (view_.getCenter().y - cur_height_ / 2);
+	double cur_x = left + double(x) / M::WindowWidth * cur_width_;
+	double cur_y = top + double(y) / M::WindowHeight * cur_height_;
 	cur_x = cur_x / tile_.width() * tile_.blocks_x();
 	cur_y = cur_y / tile_.height() * tile_.blocks_y();
 
@@ -86,24 +85,34 @@ sf::Vector2u M::Map::AbsCoords(sf::Vector2i coords) const {
 void M::Map::update(int delta, int x, int y) {
 	const int scroll_area = 100;
 	const int scroll_speed = 20;
-	const int size_x = 2000,
-			  size_y = 2000;
-	view_.setSize(size_x, size_y);
 	
+	view_.zoom(float(delta) / 10 + 1);
+	if (view_.getCenter().x < view_.getSize().x / 2 ||
+		view_.getCenter().x + view_.getSize().x / 2 > tile_.width() ||
+		view_.getCenter().y < view_.getSize().y / 2 ||
+		view_.getCenter().y + view_.getSize().y / 2 > tile_.height())
+	view_.zoom(float(delta * (-1)) / 10 + 1);
+	
+	cur_width_ = view_.getSize().x;
+	cur_height_ = view_.getSize().y;
+	
+	
+
+
 	if (x < scroll_area) {
-		if (view_.getCenter().x - scroll_speed >= size_x / 2)
+		if (view_.getCenter().x - scroll_speed >= cur_width_ / 2)
 			view_.setCenter(sf::Vector2f(view_.getCenter().x - scroll_speed, view_.getCenter().y));
 	}
 	if (x > M::WindowWidth - scroll_area) {
-		if (view_.getCenter().x + scroll_speed + size_x / 2 <= tile_.width())
+		if (view_.getCenter().x + scroll_speed + cur_width_ / 2 <= tile_.width())
 			view_.setCenter(sf::Vector2f(view_.getCenter().x + scroll_speed, view_.getCenter().y));
 	}
 	if (y < scroll_area) {
-		if (view_.getCenter().y - scroll_speed >= size_y / 2)
+		if (view_.getCenter().y - scroll_speed >= cur_height_ / 2)
 			view_.setCenter(sf::Vector2f(view_.getCenter().x, view_.getCenter().y - scroll_speed));
 	}
 	if (y > M::WindowHeight - scroll_area) {
-		if (view_.getCenter().y + scroll_speed + size_y / 2 <= tile_.height())
+		if (view_.getCenter().y + scroll_speed + cur_height_ / 2 <= tile_.height())
 			view_.setCenter(sf::Vector2f(view_.getCenter().x, view_.getCenter().y + scroll_speed));
 	}
 	

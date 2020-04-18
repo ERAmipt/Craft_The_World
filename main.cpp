@@ -5,7 +5,7 @@
 
 double MAIN_TIME = 0;
 double CURRENT_TIME = 0;
-bool AnalyseEvent(sf::Event event);
+bool AnalyseEvent(sf::Event event, M::Map& map);
 
 int main()
 {
@@ -27,15 +27,20 @@ int main()
 
         while (window.pollEvent(event))
         {   
-            if (!AnalyseEvent(event)) {
+            if (!AnalyseEvent(event, map)) {
                 window.close();
                 break;
             }
         }
         map.update(0, sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
-        window.setView(map.view());
-        std::cout << map.isSoft(sf::Mouse::getPosition()) << "\n";
 
+        printf("X: %d\nY: %d\nSoft: %d\n", 
+            map.AbsCoords(sf::Mouse::getPosition()).x,
+            map.AbsCoords(sf::Mouse::getPosition()).y,
+            map.isSoft(sf::Mouse::getPosition()));
+
+
+        window.setView(map.view());
         window.clear();
         window.draw(map);
         window.display();
@@ -45,8 +50,10 @@ int main()
 }
 
 
-bool AnalyseEvent(sf::Event event) 
-{   
+bool AnalyseEvent(sf::Event event, M::Map& map)
+{
+    if (event.type == sf::Event::MouseWheelScrolled)
+        map.update(event.mouseWheelScroll.delta, event.mouseWheelScroll.x, event.mouseWheelScroll.y);
     if (event.type == sf::Event::MouseMoved)
     {
         //std::cout << "new mouse x: " << event.mouseMove.x << std::endl;  

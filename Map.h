@@ -81,6 +81,8 @@ namespace M {
 		sf::Texture tileset_;
 		M::MapTile tile_;
 		sf::View view_;
+		unsigned int cur_width_;
+		unsigned int cur_height_;
 	};
 }
 	
