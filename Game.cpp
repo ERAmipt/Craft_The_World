@@ -171,6 +171,7 @@ const int* Hero::FindSprite(TypeAction new_action) const
 		break;
 	}
 	std::cerr << "Action wasn't found!\n";
+	return Sprite_Hero_Fall;
 }
 
 
