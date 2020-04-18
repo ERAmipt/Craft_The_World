@@ -87,6 +87,10 @@ const int HERO_WEIGHT = 22;
 const int HERO_HEIGHT = 30;
 
 
+
+const float SPEED_FRAME = (float)0.01;
+const float SPEED_RIGHT = (float)0.4;
+
 enum class TypeMaxHealth {
 	HERO_START = 10,
 	BISON = 10
