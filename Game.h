@@ -59,43 +59,21 @@ private:
 class Coord_Object
 {
 public:
-	explicit Coord_Object(float new_x, float new_y, int weight_, int height_);
+	explicit Coord_Object(float new_x, float new_y, int weight_, int height_, float* current_time);
 
-	void ChangePosition(TypeAction new_action);
 	void ChangeAction(TypeAction new_action);
+	void DisplaceCoordinates();
 
-	//мне это не нравится, может все таки public?
-	float GetX() const
-	{
-		return x_;
-	}
-	float GetY() const
-	{
-		return y_;
-	}
-	float GetSpeedX() const
-	{
-		return speed_x_;
-	}
-	float GetSppedY() const
-	{
-		return speed_y_;
-	}
-	int GetWeight() const
-	{
-		return weight_;
-	}
-	int GetHeight() const
-	{
-		return height_;
-	}
 
-	TypeAction GetAction() const 
-	{
-		return action_;
-	}
+	float GetX() const { return x_; }
+	float GetY() const { return y_; }
+	float GetSpeedX() const { return speed_x_; }
+	float GetSppedY() const { return speed_y_; }
+	int GetWeight() const { return weight_; }
+	int GetHeight() const { return height_; }
+	TypeAction GetAction() const { return action_; }
 
-private:
+protected:
 
 	float x_;
 	float y_;
@@ -104,6 +82,7 @@ private:
 	int weight_;
 	int height_;
 
+	float* current_time_;
 	TypeAction action_;
 	Coord_Object();
 };
@@ -111,16 +90,24 @@ class Image_Object : public Coord_Object
 {
 public:
 
-	Image_Object(std::string file, float new_x, float new_y, int weight_, int height_);
-	sf::Sprite GetSprite();
-	void ChangeSprite(const int* new_sprite); 
-	void UpdateSprite(); //update current_frame, 
+	Image_Object(std::string file, float new_x, float new_y, int weight_, int height_, float* current_time);
+	
+	sf::Sprite GetSprite() { return sprite_; }
+	
+	const int FindSprite(TypeAction new_action) const;
+	void ChangeSprite(const int new_sprite);
+	
+	void UpdateSprite();
+	void DisplaceSprite();
+
+	void Draw(sf::RenderWindow& window);
 
 private:
 
 	sf::Image image_;
 	sf::Texture texture_;
 	sf::Sprite sprite_;
+	int number_sprite_;
 	double current_frame_;   //определенная картинка при каком-то движении, будет меняться со временем - отображать какую именно картинку
 							 //использовать для рисования этого действия
 };
@@ -129,13 +116,13 @@ class Hero : public Image_Object
 {
 public:
 
-	Hero(std::string, float new_x, float new_y, int weight_, int height_);
+	Hero(std::string, float new_x, float new_y, int weight_, int height_, float* current_time);
 	~Hero();
 
-	int GetDamageWeapon();
+	int GetDamageWeapon() { return weapon_->GetDamage(); }
 	void ChangeWeapon(TypeWeapon typeweapon);
+
 	void DoAction(TypeAction new_action);  //we have to check it before, 
-	const int* FindSprite(TypeAction new_action) const;
 
 private:
 
@@ -161,7 +148,7 @@ private:
 
 
 
-
+/*
 class Animal : public Image_Object
 {
 public:
@@ -186,3 +173,4 @@ private:
 	TypeAction action_;
 	const int damage_ = 2;
 };
+*/

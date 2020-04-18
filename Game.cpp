@@ -1,84 +1,93 @@
 #include "Game.h"
 
-Coord_Object::Coord_Object()
-{
-	assert(0);
-}
-Coord_Object::Coord_Object(float new_x, float new_y, int new_weight, int new_height):
-	x_(new_x),
-	y_(new_y),
-	speed_x_(0),
-	speed_y_(0),
-	weight_(new_weight),
-	height_(new_height),
+Coord_Object::Coord_Object() {}
+Coord_Object::Coord_Object(float new_x, float new_y, int new_weight, int new_height, float* current_time) :
+    x_(new_x),
+    y_(new_y),
+    speed_x_(0),
+    speed_y_(0),
+    weight_(new_weight),
+    height_(new_height),
 
-	action_(TypeAction::Stay)
+    current_time_(current_time),
+    action_(TypeAction::Stay)
 {}
-void Coord_Object::ChangePosition(TypeAction new_action)
-{
-	if (action_ != new_action) {
-		switch (action_)
-		{
-		case TypeAction::Stay:
-			break;
-		case TypeAction::GoingHome:
-			break;
-		case TypeAction::MoveRight:
-			break;
-		case TypeAction::MoveLeft:
-			break;
-		case TypeAction::Jump:
-			break;
-		case TypeAction::Fall:
-			break;
-		case TypeAction::ClimbUp:
-			break;
-		case TypeAction::ClimbDown:
-			break;
-		case TypeAction::Attack:
-			break;
-		default:
-			break;
-		}
-	}
-	else {
-		x_ += speed_x_;
-		y_ += speed_y_;
-	}
-}
 void Coord_Object::ChangeAction(TypeAction new_action)
 {
-	action_ = new_action;
+    action_ = new_action;
+
+    switch (action_)
+    {
+    case TypeAction::Stay:
+        speed_x_ = 0.0;
+        speed_y_ = 0.0;
+        break;
+    case TypeAction::GoingHome:
+        break;
+    case TypeAction::MoveRight:
+        speed_x_ = SPEED_RIGHT;
+        speed_y_ = 0;
+        break;
+    case TypeAction::MoveLeft:
+        speed_x_ = -1 * SPEED_RIGHT;
+        speed_y_ = 0;
+        break;
+    case TypeAction::Jump:
+        break;
+    case TypeAction::Fall:
+        break;
+    case TypeAction::ClimbUp:
+        break;
+    case TypeAction::ClimbDown:
+        break;
+    case TypeAction::Attack:
+        break;
+    default:
+        break;
+    }
+}
+void Coord_Object::DisplaceCoordinates()
+{
+    x_ += speed_x_;
+    y_ += speed_y_;
 }
 
 
 
-Image_Object::Image_Object(std::string file, float new_x, float new_y, int weight, int height):
-	Coord_Object(new_x, new_y, weight, height),
-	image_(),
-	texture_(),
-	sprite_(),
-	current_frame_(0)
+
+
+Image_Object::Image_Object(std::string file, float new_x, float new_y, int weight, int height, float* current_time) :
+    Coord_Object(new_x, new_y, weight, height, current_time),
+    image_(),
+    texture_(),
+    sprite_(),
+    number_sprite_(0),
+    current_frame_(0)
 {
-	image_.loadFromFile(file);
-	image_.createMaskFromColor(sf::Color(255, 255, 255));
-	texture_.loadFromImage(image_);
-	sprite_.setTexture(texture_);
-	sprite_.setPosition(new_x, new_y);
+    image_.loadFromFile(file);
+    image_.createMaskFromColor(sf::Color(255, 255, 255));
+    texture_.loadFromImage(image_);
+    sprite_.setTexture(texture_);
+    sprite_.setPosition(new_x, new_y);
 }
-sf::Sprite Image_Object::GetSprite()
+void Image_Object::ChangeSprite(const int new_sprite)
 {
-	return sprite_;
-}
-void Image_Object::ChangeSprite(const int* new_sprite)
-{
-	current_frame_ = 0;
-	sprite_.setTextureRect(sf::IntRect(new_sprite[0], new_sprite[1], new_sprite[2], new_sprite[3]));
+    current_frame_ = 0;
+    number_sprite_ = new_sprite;
+    sprite_.setTextureRect(Sprites_Hero[number_sprite_][0]);
 }
 void Image_Object::UpdateSprite()
 {
-	//current_frame_ += time * коэффициент
-	//sprite_.setTextureRect(sf::IntRect(  + коэффициент * static_cast<int>(current_frame_), , , );
+    current_frame_ += SPEED_FRAME;
+    int check_current = int(current_frame_);
+    if (check_current > 26)
+        current_frame_ -= 26;
+
+    sprite_.setTextureRect(Sprites_Hero[number_sprite_][check_current]);
+}
+void Image_Object::Draw(sf::RenderWindow& window)
+{
+    window.draw(sprite_);
 }
 
 
@@ -90,88 +99,83 @@ void Image_Object::UpdateSprite()
 
 
 
-Hero::Hero(std::string file, float new_x, float new_y, int weight_, int height_):
-	Image_Object(file, new_x, new_y, weight_, height_),
-	health_(static_cast<int>(TypeMaxHealth::HERO_START)),
-	weapon_(new Weapon)
+Hero::Hero(std::string file, float new_x, float new_y, int weight_, int height_, float* current_time) :
+    Image_Object(file, new_x, new_y, weight_, height_, current_time),
+    health_(static_cast<int>(TypeMaxHealth::HERO_START)),
+    weapon_(new Weapon)
 {}
 Hero::~Hero()
 {
-	delete weapon_;
-}
-int Hero::GetDamageWeapon()
-{
-	return weapon_->GetDamage();
+    delete weapon_;
 }
 void Hero::ChangeWeapon(TypeWeapon typeweapon)
 {
-	switch (typeweapon)
-	{
-	case TypeWeapon::Nothing:
-		weapon_ = new (weapon_) Weapon;
-		break;
-	case TypeWeapon::WoodSword:
-		weapon_ = new (weapon_) WoodSword;
-		break;
-	case TypeWeapon::ElderSword:
-		weapon_ = new (weapon_) ElderSword;
-		break;
-	case TypeWeapon::SilverSword:
-		weapon_ = new (weapon_) SilverSword;
-		break;
-	default:
-		assert(0);
-		break;
-	}
+    switch (typeweapon)
+    {
+    case TypeWeapon::Nothing:
+        weapon_ = new (weapon_) Weapon;
+        break;
+    case TypeWeapon::WoodSword:
+        weapon_ = new (weapon_) WoodSword;
+        break;
+    case TypeWeapon::ElderSword:
+        weapon_ = new (weapon_) ElderSword;
+        break;
+    case TypeWeapon::SilverSword:
+        weapon_ = new (weapon_) SilverSword;
+        break;
+    default:
+        break;
+    }
 }
 void Hero::DoAction(TypeAction new_action)
 {
-	//проверка на карте
-	//return нудо TypeHeroAction, в котором будет заложено ЧТО делать надо персонажу
+    //проверка на карте
+    //return нудо TypeHeroAction, в котором будет заложено ЧТО делать надо персонажу
 
-	//if в зависимости от action 
-	
-	this->ChangePosition(new_action);
+    //if в зависимости от action
 
-	if (this->GetAction() != new_action) {
-		this->ChangeAction(new_action);
-		this->ChangeSprite(FindSprite(new_action));
-	}
-	else
-		this->UpdateSprite();
+    if (this->action_ != new_action) {
+        this->ChangeAction(new_action);
+        this->ChangeSprite(this->FindSprite(new_action));
+    }
+    else
+        this->UpdateSprite();
+
+    DisplaceCoordinates();
+    DisplaceSprite();
 }
-const int* Hero::FindSprite(TypeAction new_action) const
+const int Image_Object::FindSprite(TypeAction new_action) const
 {
-	switch (new_action)
-	{
-	case TypeAction::Stay:
-		return Sprite_Hero_Stay;
-		break;
-	case TypeAction::GoingHome:
-		break;
-	case TypeAction::MoveRight:
-		return Sprite_Hero_MoveRight;
-		break;
-	case TypeAction::MoveLeft:
-		return Sprite_Hero_MoveLeft;
-		break;
-	case TypeAction::Jump:
-		return Sprite_Hero_Jump;
-		break;
-	case TypeAction::Fall:
-		return Sprite_Hero_Fall;
-		break;
-	case TypeAction::ClimbUp:
-		break;
-	case TypeAction::ClimbDown:
-		break;
-	case TypeAction::Attack:
-		break;
-	default:
-		break;
-	}
-	std::cerr << "Action wasn't found!\n";
-	return Sprite_Hero_Fall;
+    switch (new_action)
+    {
+    case TypeAction::Stay:
+        return Sprites_Hero_Stay;
+        break;
+    case TypeAction::GoingHome:
+        break;
+    case TypeAction::MoveRight:
+        return Sprites_Hero_MoveRight;
+        break;
+    case TypeAction::MoveLeft:
+        return Sprites_Hero_MoveLeft;
+        break;
+    case TypeAction::Jump:
+        return Sprites_Hero_Jump;
+        break;
+    case TypeAction::Fall:
+        return Sprites_Hero_Fall;
+        break;
+    case TypeAction::ClimbUp:
+        break;
+    case TypeAction::ClimbDown:
+        break;
+    case TypeAction::Attack:
+        break;
+    default:
+        break;
+    }
+    std::cerr << "Action wasn't found!\n";
 }
 
 
@@ -179,35 +183,36 @@ const int* Hero::FindSprite(TypeAction new_action) const
 
 
 
-
+/*
 Animal::Animal(std::string file, float new_x, float new_y, int weight_, int height_):
-	Image_Object(file, new_x, new_y, weight_, height_)
+Image_Object(file, new_x, new_y, weight_, height_)
 {}
 
 
-//NOT DONE!!!!!-----------------------------------------------------------------------
+//NOT DONE!!!!!---------------------------------------------------------------------—
 Bison::Bison(std::string file, float new_x, float new_y, int weight_, int height_):
-	Animal(file, new_x, new_y, weight_, height_),
-	health_(static_cast<int>(TypeMaxHealth::BISON)),
-	action_(TypeAction::Stay)
+Animal(file, new_x, new_y, weight_, height_),
+health_(static_cast<int>(TypeMaxHealth::BISON)),
+action_(TypeAction::Stay)
 {}
 int Bison::GetDamage()
 {
-	return damage_;
+return damage_;
 }
 bool Bison::ReceiveDamage(int delivered_damage)
 {
-	health_ -= delivered_damage;
+health_ -= delivered_damage;
 
-	if (health_ < 0)
-		return false;
-	return true;
+if (health_ < 0)
+return false;
+return true;
 }
 void Bison::ChangeAction(TypeAction new_action)
 {
-	//какая-то проверка в map
+//какая-то проверка в map
 
-	this->action_ = new_action;
+this->action_ = new_action;
 }
 
-//UNTIL THIS---------------------------------------------------------------------------
+//UNTIL THIS-------------------------------------------------------------------------—
+*/
