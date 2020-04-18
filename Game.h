@@ -131,7 +131,6 @@ private:
 
 	
 };
-Coord_Object::Coord_Object() {}
 
 
 

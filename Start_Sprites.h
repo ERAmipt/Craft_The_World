@@ -1,11 +1,8 @@
 #pragma once
-const int Sprites_Hero[][4] = {
-	{ 0, 0, 22, 30 },
-	{ 0, 30, 22, 30 },
-	{ 22, 30, -22, 30 },
-	{ 0, 60, 22, 30 },
-	{ 0, 90, 22, 30 },
-	{ 0, 120, 22, 30 }
+#include <SFML/Graphics.hpp>
+const sf::Vector2i Sprites_Hero[][27] = {
+	{ sf::Vector2i(10, 33), sf::Vector2i(110, 33), sf::Vector2i(205, 33), sf::Vector2i(297, 33), sf::Vector2i(393, 33), sf::Vector2i(489, 33), sf::Vector2i(580, 33), sf::Vector2i(676, 33), sf::Vector2i(772, 33), sf::Vector2i(868, 33), sf::Vector2i(969, 33),  sf::Vector2i(10, 33), sf::Vector2i(110, 33), sf::Vector2i(205, 33), sf::Vector2i(297, 33), sf::Vector2i(393, 33), sf::Vector2i(489, 33), sf::Vector2i(580, 33), sf::Vector2i(676, 33), sf::Vector2i(772, 33), sf::Vector2i(868, 33), sf::Vector2i(969, 33), sf::Vector2i(10, 33), sf::Vector2i(110, 33), sf::Vector2i(205, 33), sf::Vector2i(297, 33), sf::Vector2i(393, 33)},
+	{ sf::Vector2i(28, 215), sf::Vector2i(162, 215), sf::Vector2i(304, 215),sf::Vector2i(434, 215), sf::Vector2i(555, 215), sf::Vector2i(674, 215), sf::Vector2i(795, 215), sf::Vector2i(916, 215), sf::Vector2i(1031, 215), sf::Vector2i(28, 215), sf::Vector2i(162, 215), sf::Vector2i(304, 215),sf::Vector2i(434, 215), sf::Vector2i(555, 215), sf::Vector2i(674, 215), sf::Vector2i(795, 215), sf::Vector2i(916, 215), sf::Vector2i(1031, 215), sf::Vector2i(28, 215), sf::Vector2i(162, 215), sf::Vector2i(304, 215),sf::Vector2i(434, 215), sf::Vector2i(555, 215), sf::Vector2i(674, 215), sf::Vector2i(795, 215), sf::Vector2i(916, 215), sf::Vector2i(1031, 215)}
 };
 
 const int Sprites_Hero_Stay = 0;

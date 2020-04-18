@@ -1,5 +1,6 @@
 #include "Game.h"
 
+Coord_Object::Coord_Object() {}
 Coord_Object::Coord_Object(float new_x, float new_y, int new_weight, int new_height, float* current_time) :
     x_(new_x),
     y_(new_y),
@@ -73,42 +74,16 @@ void Image_Object::ChangeSprite(const int new_sprite)
 {
     current_frame_ = 0;
     number_sprite_ = new_sprite;
-    sprite_.setTextureRect(sf::IntRect(Sprites_Hero[number_sprite_][0], Sprites_Hero[number_sprite_][1], Sprites_Hero[number_sprite_][2], Sprites_Hero[number_sprite_][3]));
+    sprite_.setTextureRect(sf::IntRect(Sprites_Hero[number_sprite_][0].x, Sprites_Hero[number_sprite_][0].y, weight_, height_));
 }
 void Image_Object::UpdateSprite()
 {
     current_frame_ += (*current_time_) * SPEED_FRAME;
-    switch (action_)
-    {
-    case TypeAction::Stay:
-        if (current_frame_ > 3.0)
-            current_frame_ -= 3.0;
-        break;
-    case TypeAction::GoingHome:
-        break;
-    case TypeAction::MoveRight:
-        if (current_frame_ > 8.0)
-            current_frame_ -= 8.0;
-        break;
-    case TypeAction::MoveLeft:
-        if (current_frame_ > 8.0)
-            current_frame_ -= 8.0;
-        break;
-    case TypeAction::Jump:
-        break;
-    case TypeAction::Fall:
-        break;
-    case TypeAction::ClimbUp:
-        break;
-    case TypeAction::ClimbDown:
-        break;
-    case TypeAction::Attack:
-        break;
-    default:
-        break;
-    }
+    int check_current = int(current_frame_);
+    if (check_current > 27)
+        current_frame_ -= 27;
 
-    sprite_.setTextureRect(sf::IntRect(Sprites_Hero[number_sprite_][0] + weight_ * int(current_frame_), Sprites_Hero[number_sprite_][1], Sprites_Hero[number_sprite_][2], Sprites_Hero[number_sprite_][3]));
+    sprite_.setTextureRect(sf::IntRect(Sprites_Hero[number_sprite_][check_current].x, Sprites_Hero[number_sprite_][check_current].y, weight_, height_));
 }
 void Image_Object::Draw(sf::RenderWindow& window)
 {

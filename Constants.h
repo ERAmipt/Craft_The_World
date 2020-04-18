@@ -48,27 +48,6 @@ enum class TypePickax {
 
 
 
-/*эти константы на тебе
-enum class StatusBlock {
-	Empty = 0,
-	Ground
-};
-enum class StatusDrawing {
-	Nothing = 0,
-	Sky1,
-	Sky2,
-	Ground1,
-	Ground2
-};
-enum class BusySide {
-	Empty = 0,
-	Rigth, Left, Up, Down,
-	RightUp, RightDown,
-	LeftUp, LeftDown
-};
-вот они были для map, теперь надо вставлять Tilemap
-*/
-
 
 
 
@@ -80,15 +59,15 @@ const int BLOCK_Y = 30;
 const int COUNT_BLOCKS_X_ = 198;
 const int COUNT_BLOCKS_Y_ = 108;
 
-const int START_X = 100;
-const int START_Y = 100;
+const int START_X = 1000;
+const int START_Y = 1000;
 
-const int HERO_WEIGHT = 120;
+const int HERO_WEIGHT = 105;
 const int HERO_HEIGHT = 140;
 
 
 
-const float SPEED_FRAME = (float)0.01;
+const float SPEED_FRAME = (float)0.1;
 const float SPEED_RIGHT = (float)0.4;
 
 enum class TypeMaxHealth {
