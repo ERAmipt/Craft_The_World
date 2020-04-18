@@ -5,7 +5,7 @@
 
 double MAIN_TIME = 0;
 double CURRENT_TIME = 0;
-bool AnalyseEvent(sf::Event event);
+bool AnalyseEvent(sf::Event event, M::Map& map);
 
 int main()
 {
@@ -27,7 +27,7 @@ int main()
 
         while (window.pollEvent(event))
         {   
-            if (!AnalyseEvent(event)) {
+            if (!AnalyseEvent(event, map)) {
                 window.close();
                 break;
             }
@@ -50,8 +50,10 @@ int main()
 }
 
 
-bool AnalyseEvent(sf::Event event) 
-{   
+bool AnalyseEvent(sf::Event event, M::Map& map)
+{
+    if (event.type == sf::Event::MouseWheelScrolled)
+        map.update(event.mouseWheelScroll.delta, event.mouseWheelScroll.x, event.mouseWheelScroll.y);
     if (event.type == sf::Event::MouseMoved)
     {
         //std::cout << "new mouse x: " << event.mouseMove.x << std::endl;  
