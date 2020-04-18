@@ -120,12 +120,12 @@ void M::Map::update(int delta, int x, int y) {
 }
 
 bool M::Map::isSoft(sf::Vector2u coords) const {
-	return M::Blocks[level[AbsCoords(coords).x + AbsCoords(coords).y * 100]].isSoft();
+	return M::Blocks[level[int(AbsCoords(coords).x) + int(AbsCoords(coords).y) * 100]].isSoft();
 }
 bool M::Map::isSoft(sf::Vector2i coords) const {
-	return M::Blocks[level[AbsCoords(coords).x + AbsCoords(coords).y * 100]].isSoft();
+	return M::Blocks[level[int(AbsCoords(coords).x) + int(AbsCoords(coords).y) * 100]].isSoft();
 }
 bool M::Map::isSoft(int x, int y) const {
-	return M::Blocks[level[AbsCoords(x, y).x + AbsCoords(x, y).y * 100]].isSoft();
+	return M::Blocks[level[int(AbsCoords(x, y).x) + int(AbsCoords(x, y).y) * 100]].isSoft();
 }
 
