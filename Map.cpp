@@ -60,7 +60,7 @@ void M::Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 }
 
 
-sf::Vector2u M::Map::AbsCoords(int x, int y) const {
+sf::Vector2f M::Map::AbsCoords(int x, int y) const {
 	assert(x <= int(M::WindowWidth));
 	assert(y <= int(M::WindowHeight));
 	assert(x >= 0);
@@ -73,12 +73,12 @@ sf::Vector2u M::Map::AbsCoords(int x, int y) const {
 	cur_x = cur_x / tile_.width() * tile_.blocks_x();
 	cur_y = cur_y / tile_.height() * tile_.blocks_y();
 
-	return sf::Vector2u(cur_x, cur_y);
+	return sf::Vector2f(cur_x, cur_y);
 }
-sf::Vector2u M::Map::AbsCoords(sf::Vector2u coords) const {
+sf::Vector2f M::Map::AbsCoords(sf::Vector2u coords) const {
 	return AbsCoords(coords.x, coords.y);
 }
-sf::Vector2u M::Map::AbsCoords(sf::Vector2i coords) const {
+sf::Vector2f M::Map::AbsCoords(sf::Vector2i coords) const {
 	return AbsCoords(coords.x, coords.y);
 }
 
@@ -95,9 +95,6 @@ void M::Map::update(int delta, int x, int y) {
 	
 	cur_width_ = view_.getSize().x;
 	cur_height_ = view_.getSize().y;
-	
-	
-
 
 	if (x < scroll_area) {
 		if (view_.getCenter().x - scroll_speed >= cur_width_ / 2)

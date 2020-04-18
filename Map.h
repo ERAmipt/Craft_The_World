@@ -62,9 +62,9 @@ namespace M {
 		// Return absolute coordinates of the desired 
 		//    window based coordinates
 		/////////////////////////////////////////////////////
-		sf::Vector2u AbsCoords(sf::Vector2u coords) const;
-		sf::Vector2u AbsCoords(sf::Vector2i coords) const;
-		sf::Vector2u AbsCoords(int x, int y) const;
+		sf::Vector2f AbsCoords(sf::Vector2u coords) const;
+		sf::Vector2f AbsCoords(sf::Vector2i coords) const;
+		sf::Vector2f AbsCoords(int x, int y) const;
 
 		/////////////////////////////////////////////////////
 		// Check is block is soft
