@@ -59,16 +59,16 @@ const int BLOCK_Y = 30;
 const int COUNT_BLOCKS_X_ = 198;
 const int COUNT_BLOCKS_Y_ = 108;
 
-const int START_X = 1000;
-const int START_Y = 1000;
+const int START_X = 400;
+const int START_Y = 400;
 
 const int HERO_WEIGHT = 105;
 const int HERO_HEIGHT = 140;
 
 
 
-const float SPEED_FRAME = (float)0.1;
-const float SPEED_RIGHT = (float)0.4;
+const float SPEED_FRAME = (float)0.5;
+const float SPEED_RIGHT = (float)10;
 
 enum class TypeMaxHealth {
 	HERO_START = 10,

@@ -32,7 +32,7 @@ int main()
                 break;
             }
         }
-        map.update(0, sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
+        //map.update(0, sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
 
         /*printf("X: %d\nY: %d\nSoft: %d\n", 
             map.AbsCoords(sf::Mouse::getPosition()).x,
@@ -40,9 +40,9 @@ int main()
             map.isSoft(sf::Mouse::getPosition()));
             */
 
-        window.setView(map.view());
+        //window.setView(map.view());
         window.clear();
-        window.draw(map);
+        //window.draw(map);
         first_hero.Draw(window);
         window.display();
     }
@@ -56,10 +56,13 @@ bool AnalyseEvent(sf::Event event, M::Map& map, Hero& hero)
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
         hero.DoAction(TypeAction::MoveRight);
     }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+        hero.DoAction(TypeAction::MoveLeft);
+    }
     else {
         hero.DoAction(TypeAction::Stay);
     }
-
+    /*
     if (event.type == sf::Event::MouseWheelScrolled)
         map.update(event.mouseWheelScroll.delta, event.mouseWheelScroll.x, event.mouseWheelScroll.y);
     if (event.type == sf::Event::MouseMoved)
@@ -67,6 +70,7 @@ bool AnalyseEvent(sf::Event event, M::Map& map, Hero& hero)
         //std::cout << "new mouse x: " << event.mouseMove.x << std::endl;  
         //std::cout << "new mouse y: " << event.mouseMove.y << std::endl;
     }
+    */
     if (event.type == sf::Event::Closed)
         return false;
     return true;

@@ -48,8 +48,8 @@ void Coord_Object::ChangeAction(TypeAction new_action)
 }
 void Coord_Object::DisplaceCoordinates()
 {
-    x_ += speed_x_ * (*current_time_);
-    y_ += speed_y_ * (*current_time_);
+    x_ += speed_x_;
+    y_ += speed_y_;
 }
 
 
@@ -74,24 +74,20 @@ void Image_Object::ChangeSprite(const int new_sprite)
 {
     current_frame_ = 0;
     number_sprite_ = new_sprite;
-    sprite_.setTextureRect(sf::IntRect(Sprites_Hero[number_sprite_][0].x, Sprites_Hero[number_sprite_][0].y, weight_, height_));
+    sprite_.setTextureRect(Sprites_Hero[number_sprite_][0]);
 }
 void Image_Object::UpdateSprite()
 {
-    current_frame_ += (*current_time_) * SPEED_FRAME;
+    current_frame_ += SPEED_FRAME;
     int check_current = int(current_frame_);
-    if (check_current > 27)
-        current_frame_ -= 27;
+    if (check_current > 26)
+        current_frame_ -= 26;
 
-    sprite_.setTextureRect(sf::IntRect(Sprites_Hero[number_sprite_][check_current].x, Sprites_Hero[number_sprite_][check_current].y, weight_, height_));
+    sprite_.setTextureRect(Sprites_Hero[number_sprite_][check_current]);
 }
 void Image_Object::Draw(sf::RenderWindow& window)
 {
     window.draw(sprite_);
-}
-void Image_Object::DisplaceSprite()
-{
-    sprite_.setPosition(this->x_, this->y_);
 }
 
 
