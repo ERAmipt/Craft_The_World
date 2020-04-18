@@ -1,7 +1,5 @@
 #include "Game.h"
 
-Coord_Object::Coord_Object()
-{}
 Coord_Object::Coord_Object(float new_x, float new_y, int new_weight, int new_height, float* current_time) :
     x_(new_x),
     y_(new_y),
@@ -71,10 +69,6 @@ Image_Object::Image_Object(std::string file, float new_x, float new_y, int weigh
     sprite_.setTexture(texture_);
     sprite_.setPosition(new_x, new_y);
 }
-sf::Sprite Image_Object::GetSprite()
-{
-    return sprite_;
-}
 void Image_Object::ChangeSprite(const int new_sprite)
 {
     current_frame_ = 0;
@@ -143,10 +137,6 @@ Hero::~Hero()
 {
     delete weapon_;
 }
-int Hero::GetDamageWeapon()
-{
-    return weapon_->GetDamage();
-}
 void Hero::ChangeWeapon(TypeWeapon typeweapon)
 {
     switch (typeweapon)
@@ -182,7 +172,6 @@ void Hero::DoAction(TypeAction new_action)
         this->UpdateSprite();
 
     DisplaceCoordinates();
-
     DisplaceSprite();
 }
 const int Image_Object::FindSprite(TypeAction new_action) const

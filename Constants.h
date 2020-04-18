@@ -83,8 +83,8 @@ const int COUNT_BLOCKS_Y_ = 108;
 const int START_X = 100;
 const int START_Y = 100;
 
-const int HERO_WEIGHT = 22;
-const int HERO_HEIGHT = 30;
+const int HERO_WEIGHT = 120;
+const int HERO_HEIGHT = 140;
 
 
 
