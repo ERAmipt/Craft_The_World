@@ -79,71 +79,18 @@ void Image_Object::ChangeSprite(const int new_sprite)
 void Image_Object::UpdateSprite()
 {
     current_frame_ += SPEED_FRAME;
-    int check_current = int(current_frame_);
-    if (check_current > 26)
+    if ((int)current_frame_ > 26)
         current_frame_ -= 26;
 
-    sprite_.setTextureRect(Sprites_Hero[number_sprite_][check_current]);
+    sprite_.setTextureRect(Sprites_Hero[number_sprite_][(int)current_frame_]);
 }
 void Image_Object::Draw(sf::RenderWindow& window)
 {
     window.draw(sprite_);
 }
-
-
-
-
-
-
-
-
-
-
-Hero::Hero(std::string file, float new_x, float new_y, int weight_, int height_, float* current_time) :
-    Image_Object(file, new_x, new_y, weight_, height_, current_time),
-    health_(static_cast<int>(TypeMaxHealth::HERO_START)),
-    weapon_(new Weapon)
-{}
-Hero::~Hero()
+void Image_Object::DisplaceSprite()
 {
-    delete weapon_;
-}
-void Hero::ChangeWeapon(TypeWeapon typeweapon)
-{
-    switch (typeweapon)
-    {
-    case TypeWeapon::Nothing:
-        weapon_ = new (weapon_) Weapon;
-        break;
-    case TypeWeapon::WoodSword:
-        weapon_ = new (weapon_) WoodSword;
-        break;
-    case TypeWeapon::ElderSword:
-        weapon_ = new (weapon_) ElderSword;
-        break;
-    case TypeWeapon::SilverSword:
-        weapon_ = new (weapon_) SilverSword;
-        break;
-    default:
-        break;
-    }
-}
-void Hero::DoAction(TypeAction new_action)
-{
-    //проверка на карте
-    //return нудо TypeHeroAction, в котором будет заложено ЧТО делать надо персонажу
-
-    //if в зависимости от action
-
-    if (this->action_ != new_action) {
-        this->ChangeAction(new_action);
-        this->ChangeSprite(this->FindSprite(new_action));
-    }
-    else
-        this->UpdateSprite();
-
-    DisplaceCoordinates();
-    DisplaceSprite();
+    sprite_.setPosition(this->x_, this->y_);
 }
 const int Image_Object::FindSprite(TypeAction new_action) const
 {
@@ -176,6 +123,64 @@ const int Image_Object::FindSprite(TypeAction new_action) const
         break;
     }
     std::cerr << "Action wasn't found!\n";
+}
+
+
+
+
+
+
+
+
+
+
+Hero::Hero(std::string file, float new_x, float new_y, int weight_, int height_, float* current_time) :
+    Image_Object(file, new_x, new_y, weight_, height_, current_time),
+    health_(static_cast<int>(TypeMaxHealth::HERO_START)),
+    weapon_(new Weapon)
+{}
+Hero::~Hero()
+{
+    delete weapon_;
+}
+
+void Hero::ChangeWeapon(TypeWeapon typeweapon)
+{
+    switch (typeweapon)
+    {
+    case TypeWeapon::Nothing:
+        weapon_ = new (weapon_) Weapon;
+        break;
+    case TypeWeapon::WoodSword:
+        weapon_ = new (weapon_) WoodSword;
+        break;
+    case TypeWeapon::ElderSword:
+        weapon_ = new (weapon_) ElderSword;
+        break;
+    case TypeWeapon::SilverSword:
+        weapon_ = new (weapon_) SilverSword;
+        break;
+    default:
+        break;
+    }
+}
+void Hero::DoAction(TypeAction new_action)
+{
+    //проверка на карте
+    //return нудо TypeHeroAction, в котором будет заложено ЧТО делать надо персонажу
+
+    //if в зависимости от action
+
+    if (this->action_ != new_action) {
+        this->ChangeAction(new_action);
+        this->ChangeSprite(this->FindSprite(new_action));
+    }
+    else {
+        this->UpdateSprite();
+    }
+
+    DisplaceCoordinates();
+    DisplaceSprite();
 }
 
 
