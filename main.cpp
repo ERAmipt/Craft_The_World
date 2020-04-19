@@ -5,8 +5,10 @@
 
 float MAIN_TIME = 0;
 float CURRENT_TIME = 0;
+
 bool AnalyseEvent(sf::Event& event, M::Map& map);
-bool CheckKeyboard(Hero& hero);
+bool CheckKeyboard(Hero& hero, const M::Map& map);
+bool CheckPermanentActions(Hero& hero, const M::Map& map);
 
 int main()
 {
@@ -33,7 +35,7 @@ int main()
                 break;
             }
         }
-        if (!CheckKeyboard(first_hero)) {
+        if (!CheckKeyboard(first_hero, map)) {
             window.close();
         }
 
@@ -70,15 +72,72 @@ bool AnalyseEvent(sf::Event& event, M::Map& map)
         return false;
     return true;
 }
-bool CheckKeyboard(Hero& hero) 
+
+
+bool CheckKeyboard(Hero& hero, const M::Map& map) 
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-        hero.DoAction(TypeAction::MoveRight);
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-        hero.DoAction(TypeAction::MoveLeft);
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         return false;
-    else
-        hero.DoAction(TypeAction::Stay);
+
+    if (CheckPermanentActions(hero, map))
+        return true;
+
+
+    TypeAction new_action = TypeAction::Stay;
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+            new_action = TypeAction::JumpRight;
+        else
+            new_action = TypeAction::MoveRight;
+    }
+
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+            new_action = TypeAction::JumpLeft;
+        else
+            new_action = TypeAction::MoveLeft;
+    }
+
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+        new_action = TypeAction::Jump;
+    
+    hero.DoAction(hero.CheckOportunityAction(new_action, map));
+
     return true;
+}
+
+bool CheckPermanentActions(Hero& hero, const M::Map& map)
+{
+    TypeAction current_action = hero.GetAction();
+    if (current_action == TypeAction::Jump || current_action == TypeAction::JumpLeft || current_action == TypeAction::JumpRight) {
+
+        if (hero.IsEmptyUp(map) && hero.IsEmptyLeft(map) && hero.IsEmptyRight(map)) {
+            hero.ContinueAction();
+        }
+        else {
+            hero.DoAction(TypeAction::Fall);
+        }
+        return true;
+
+    }
+    if (current_action == TypeAction::Fall || current_action == TypeAction::FallLeft || current_action == TypeAction::FallRight) {
+
+        if (!hero.IsEmptyDown(map)) {
+            hero.DoAction(TypeAction::FallEnd);
+        }
+        else {
+            if ((current_action == TypeAction::FallRight && hero.IsEmptyRight(map)) || (current_action == TypeAction::FallLeft && hero.IsEmptyLeft(map)))
+                hero.ContinueAction();
+            else
+                hero.DoAction(TypeAction::Fall);
+        }
+        return true;
+
+    }
+    if (current_action == TypeAction::FallEnd) {
+        hero.ContinueAction();
+        return true;
+    }
+    return false;
 }

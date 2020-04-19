@@ -3,15 +3,25 @@
 enum class TypeAction {
 	Stay = 0,
 	GoingHome,
-	MoveRight,
-	MoveLeft,
-	Jump, 
-	Fall,
+
+	MoveRight, MoveLeft,
+	
+	Jump, JumpRight, JumpLeft,
+	Fall, FallRight, FallLeft, FallEnd,
+	
 	ClimbUp,
 	ClimbDown,
 	Attack
 };
+/*in case of adding new actions:
+	add to ChangeAction
+	add to CheckOpotrunityAction
+	add to FindSprite and StartSprites.h in order to take new sprites
 
+	if it's temporary action - check time in UpdateSprite
+
+	in order to get access to user - add to CheckKeyboard() and CheckPermanentAction()
+*/
 
 
 enum class TypeWeapon {
@@ -51,24 +61,32 @@ enum class TypePickax {
 
 
 
+const int BLOCK_X = 32; //waiting for delete
+const int BLOCK_Y = 32; //waiting for delete
 
 
 
-const int BLOCK_X = 30;
-const int BLOCK_Y = 30;
-const int COUNT_BLOCKS_X_ = 198;
-const int COUNT_BLOCKS_Y_ = 108;
+
+
+
+
+
 
 const int START_X = 400;
-const int START_Y = 400;
+const int START_Y = 300;
 
 const int HERO_WEIGHT = 105;
-const int HERO_HEIGHT = 140;
+const int HERO_HEIGHT = 130;
 
 
 
-const float SPEED_FRAME = (float)0.5;
-const float SPEED_RIGHT = (float)10;
+const float TIME_JUMPING = (float)13.0;
+const float TIME_LANDING = (float)5.0;
+
+
+const float SPEED_FRAME = (float)0.02;
+const float SPEED_RIGHT = (float)0.35;
+const float SPEED_UP = (float)0.35;
 
 enum class TypeMaxHealth {
 	HERO_START = 10,

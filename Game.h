@@ -61,8 +61,14 @@ class Coord_Object
 public:
 	explicit Coord_Object(float new_x, float new_y, int weight_, int height_, float* current_time);
 
-	void ChangeAction(TypeAction new_action);
+	void ChangeAction(TypeAction new_action);  //use ChangeActionTo instead!!!
 	void DisplaceCoordinates();
+
+	bool IsEmptyRight(const M::Map& map);
+	bool IsEmptyLeft(const M::Map& map);
+	bool IsEmptyUp(const M::Map& map);
+	bool IsEmptyDown(const M::Map& map);
+	TypeAction CheckOportunityAction(TypeAction new_action, const M::Map& map);
 
 
 	float GetX() const { return x_; }
@@ -86,6 +92,10 @@ protected:
 	TypeAction action_;
 	Coord_Object();
 };
+
+
+
+
 class Image_Object : public Coord_Object
 {
 public:
@@ -100,6 +110,8 @@ public:
 	void UpdateSprite();
 	void DisplaceSprite();
 
+	void ChangeActionTo(TypeAction new_action);
+
 	void Draw(sf::RenderWindow& window);
 
 private:
@@ -112,6 +124,11 @@ private:
 							 //использовать для рисования этого действия
 };
 
+
+
+
+
+
 class Hero : public Image_Object
 {
 public:
@@ -123,6 +140,7 @@ public:
 	void ChangeWeapon(TypeWeapon typeweapon);
 
 	void DoAction(TypeAction new_action);  //we have to check it before, 
+	void ContinueAction();
 
 private:
 
