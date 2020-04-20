@@ -73,7 +73,7 @@ const int COUNT_SPRITES = 27;
 
 
 const int START_X = 400;
-const int START_Y = 300;
+const int START_Y = 500;
 
 const int HERO_WEIGHT = 105;
 const int HERO_HEIGHT = 130;

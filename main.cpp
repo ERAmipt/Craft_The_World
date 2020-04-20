@@ -9,6 +9,7 @@ float CURRENT_TIME = 0;
 bool AnalyseEvent(sf::Event& event, M::Map& map);
 bool CheckKeyboard(Hero& hero, const M::Map& map);
 bool CheckPermanentActions(Hero& hero, const M::Map& map);
+TypeAction RecordinateAction(TypeAction hero_action, TypeAction new_action);
 
 int main()
 {
@@ -99,8 +100,11 @@ bool CheckKeyboard(Hero& hero, const M::Map& map)
             new_action = TypeAction::MoveLeft;
     }
 
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
         new_action = TypeAction::Jump;
+    }
+
+    new_action = RecordinateAction(hero.GetAction(), new_action);
     
     hero.DoAction(hero.CheckOportunityAction(new_action, map));
 
@@ -121,23 +125,20 @@ bool CheckPermanentActions(Hero& hero, const M::Map& map)
         return true;
 
     }
-    if (current_action == TypeAction::Fall || current_action == TypeAction::FallLeft || current_action == TypeAction::FallRight) {
-
-        if (!hero.IsEmptyDown(map)) {
-            hero.DoAction(TypeAction::FallEnd);
-        }
-        else {
-            if ((current_action == TypeAction::FallRight && hero.IsEmptyRight(map)) || (current_action == TypeAction::FallLeft && hero.IsEmptyLeft(map)))
-                hero.ContinueAction();
-            else
-                hero.DoAction(TypeAction::Fall);
-        }
-        return true;
-
-    }
     if (current_action == TypeAction::FallEnd) {
         hero.ContinueAction();
         return true;
     }
     return false;
+}
+
+TypeAction RecordinateAction(TypeAction hero_action, TypeAction new_action)
+{
+    if (hero_action == TypeAction::Fall || hero_action == TypeAction::FallRight || hero_action == TypeAction::FallLeft) {
+        if (new_action == TypeAction::MoveLeft)
+            return TypeAction::FallLeft;
+        if (new_action == TypeAction::MoveRight)
+            return TypeAction::FallRight;
+    }
+    return new_action;
 }

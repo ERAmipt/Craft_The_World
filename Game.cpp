@@ -123,7 +123,6 @@ bool Coord_Object::IsEmptyLeft(const M::Map& map)
 bool Coord_Object::IsEmptyUp(const M::Map& map)
 {
     int current_x = int(x_);
-
     for (int i = 0; i < weight_ / BLOCK_X; ++i) {
         if (!map.isSoft(current_x, int(y_)))
             return false;
@@ -131,7 +130,6 @@ bool Coord_Object::IsEmptyUp(const M::Map& map)
     }
     if (!map.isSoft(int(x_ + weight_), int(y_)))
         return false;
-
     return true;
 }
 bool Coord_Object::IsEmptyDown(const M::Map& map)
@@ -153,25 +151,25 @@ bool Coord_Object::IsEmptyDown(const M::Map& map)
 
 TypeAction Coord_Object::CheckOportunityAction(TypeAction new_action, const M::Map& map)
 {
-    if (!IsEmptyDown(map)) {
-        if (new_action == TypeAction::MoveRight) {
+    if (IsEmptyDown(map)) {
+        if (new_action == TypeAction::MoveRight || new_action == TypeAction::FallRight) {
             
             if (!IsEmptyRight(map))
                 return TypeAction::Fall;
             return TypeAction::FallRight;
 
         }
-        else if (new_action == TypeAction::MoveLeft) {
+        else if (new_action == TypeAction::MoveLeft || new_action == TypeAction::FallLeft) {
 
             if (!IsEmptyLeft(map))
                 return TypeAction::Fall;
             return TypeAction::FallLeft;
 
         }
-        else
+        else {
             return TypeAction::Fall;
+        }
     }
-
     switch (new_action)
     {
     case TypeAction::MoveRight:
@@ -189,7 +187,7 @@ TypeAction Coord_Object::CheckOportunityAction(TypeAction new_action, const M::M
 
 
     case TypeAction::Jump:
-        if (IsEmptyUp(map))
+        if (IsEmptyUp(map)) 
             return TypeAction::Jump;
         else
             return TypeAction::Stay;
@@ -260,7 +258,7 @@ void Image_Object::UpdateSprite()
         return;
     }
     if (this->action_ == TypeAction::FallEnd && current_frame_ > TIME_LANDING) {
-        ChangeActionTo(TypeAction::FallEnd);
+        ChangeActionTo(TypeAction::Stay);
         return;
     }
 

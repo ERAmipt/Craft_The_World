@@ -61,11 +61,12 @@ void M::Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 
 sf::Vector2f M::Map::AbsCoords(int x, int y) const {
+	/*
 	assert(x <= int(M::WindowWidth));
 	assert(y <= int(M::WindowHeight));
 	assert(x >= 0);
 	assert(y >= 0);
-
+	*/
 	double left = (view_.getCenter().x - cur_width_ / 2);
 	double top =  (view_.getCenter().y - cur_height_ / 2);
 	double cur_x = left + double(x) / M::WindowWidth * cur_width_;
@@ -126,6 +127,6 @@ bool M::Map::isSoft(sf::Vector2i coords) const {
 	return M::Blocks[level[int(AbsCoords(coords).x) + int(AbsCoords(coords).y) * 100]].isSoft();
 }
 bool M::Map::isSoft(int x, int y) const {
-	return M::Blocks[level[int(AbsCoords(x, y).x) + int(AbsCoords(x, y).y) * 100]].isSoft();
+	return M::Blocks[level[int(AbsCoords(x, y).x) + int(AbsCoords(x, y).y) * 30]].isSoft();
 }
 
