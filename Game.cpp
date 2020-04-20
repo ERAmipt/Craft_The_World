@@ -90,12 +90,14 @@ bool Coord_Object::IsEmptyRight(const M::Map& map)
 {
     int current_y = int(y_);
     int current_x = int(x_ + weight_);
-
+    //constants in Constants.h
     for (int i = 0; i < height_ / BLOCK_Y; ++i) {
         if (!map.isSoft(current_x, current_y))
             return false;
+
         current_y += BLOCK_Y;
     }
+    //checking for the opposite boundary of hero
     if (!map.isSoft(current_x, int(y_ + height_)))
         return false;
     
@@ -144,6 +146,7 @@ bool Coord_Object::IsEmptyDown(const M::Map& map)
 
     return true;
 }
+
 TypeAction Coord_Object::CheckOportunityAction(TypeAction new_action, const M::Map& map)
 {
     if (!IsEmptyDown(map)) {
@@ -258,8 +261,8 @@ void Image_Object::UpdateSprite()
     }
 
 
-    if ((int)current_frame_ > 26)
-        current_frame_ -= 26;
+    if ((int)current_frame_ > COUNT_SPRITES - 1)
+        current_frame_ -= COUNT_SPRITES - 1;
 
     sprite_.setTextureRect(Sprites_Hero[number_sprite_][(int)current_frame_]);
 }

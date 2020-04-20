@@ -65,7 +65,7 @@ const int BLOCK_X = 32; //waiting for delete
 const int BLOCK_Y = 32; //waiting for delete
 
 
-
+const int COUNT_SPRITES = 27;
 
 
 
