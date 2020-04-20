@@ -7,7 +7,7 @@
 
 
 
-
+//Realisation in -> Game.cpp 
 
 
 
@@ -61,7 +61,7 @@ class Coord_Object
 public:
 	explicit Coord_Object(float new_x, float new_y, int weight_, int height_, float* current_time);
 
-	void ChangeAction(TypeAction new_action);  //use ChangeActionTo instead!!!
+	void ChangeAction(TypeAction new_action);  //use Hero::ChangeActionTo instead if it's possible - more safety! I will close the opportinity to get this func soon!!
 	void DisplaceCoordinates();
 
 	bool IsEmptyRight(const M::Map& map);
@@ -120,8 +120,7 @@ private:
 	sf::Texture texture_;
 	sf::Sprite sprite_;
 	int number_sprite_;
-	double current_frame_;   //определенная картинка при каком-то движении, будет меняться со временем - отображать какую именно картинку
-							 //использовать для рисования этого действия
+	double current_frame_;  
 };
 
 

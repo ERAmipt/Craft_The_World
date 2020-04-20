@@ -86,6 +86,7 @@ void Coord_Object::DisplaceCoordinates()
     y_ += speed_y_ * (*current_time_);
 }
 
+//Should be in M:: space I think and easy to get using only Coord_Hero*----
 bool Coord_Object::IsEmptyRight(const M::Map& map)
 {
     int current_y = int(y_);
@@ -146,6 +147,7 @@ bool Coord_Object::IsEmptyDown(const M::Map& map)
 
     return true;
 }
+//------------------------------------------------------------------------
 
 TypeAction Coord_Object::CheckOportunityAction(TypeAction new_action, const M::Map& map)
 {
