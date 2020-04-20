@@ -115,15 +115,19 @@ bool CheckPermanentActions(Hero& hero, const M::Map& map)
 {
     TypeAction current_action = hero.GetAction();
     if (current_action == TypeAction::Jump || current_action == TypeAction::JumpLeft || current_action == TypeAction::JumpRight) {
-
-        if (hero.IsEmptyUp(map) && hero.IsEmptyLeft(map) && hero.IsEmptyRight(map)) {
+        if (hero.IsEmptyUp(map)) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && hero.IsEmptyLeft(map)) {
+                hero.CorrectAction(TypeAction::JumpLeft);
+            }
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && hero.IsEmptyRight(map)) {
+                hero.CorrectAction(TypeAction::JumpRight);
+            }
+            
             hero.ContinueAction();
         }
-        else {
+        else
             hero.DoAction(TypeAction::Fall);
-        }
         return true;
-
     }
     if (current_action == TypeAction::FallEnd) {
         hero.ContinueAction();

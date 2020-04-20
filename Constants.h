@@ -86,7 +86,7 @@ const float TIME_LANDING = (float)5.0;
 
 const float SPEED_FRAME = (float)0.02;
 const float SPEED_RIGHT = (float)0.35;
-const float SPEED_UP = (float)0.35;
+const float SPEED_UP = (float)0.6;
 
 enum class TypeMaxHealth {
 	HERO_START = 10,

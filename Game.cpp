@@ -101,8 +101,6 @@ bool Coord_Object::IsEmptyRight(const M::Map& map)
         current_y += BLOCK_Y;
     }
     //checking for the opposite boundary of hero
-    if (!map.isSoft(current_x, int(y_ + height_)))
-        return false;
     
     return true;
 }
@@ -115,8 +113,6 @@ bool Coord_Object::IsEmptyLeft(const M::Map& map)
             return false;
         current_y += BLOCK_Y;
     }
-    if (!map.isSoft(int(x_), int(y_ + height_)))
-        return false;
 
     return true;
 }
@@ -128,8 +124,6 @@ bool Coord_Object::IsEmptyUp(const M::Map& map)
             return false;
         current_x += BLOCK_X;
     }
-    if (!map.isSoft(int(x_ + weight_), int(y_)))
-        return false;
     return true;
 }
 bool Coord_Object::IsEmptyDown(const M::Map& map)
@@ -142,8 +136,6 @@ bool Coord_Object::IsEmptyDown(const M::Map& map)
             return false;
         current_x += BLOCK_X;
     }
-    if (!map.isSoft(int(x_ + weight_), current_y))
-        return false;
 
     return true;
 }
@@ -237,23 +229,28 @@ Image_Object::Image_Object(std::string file, float new_x, float new_y, int weigh
     sprite_.setPosition(new_x, new_y);
 }
 
-void Image_Object::ChangeSprite(const int new_sprite)
+void Image_Object::ChangeSprite(TypeAction new_action)
 {
     current_frame_ = 0;
-    number_sprite_ = new_sprite;
+    number_sprite_ = FindSprite(new_action);
+    sprite_.setTextureRect(Sprites_Hero[number_sprite_][0]);
+}
+void Image_Object::ChangeImage(TypeAction new_action)
+{
+    number_sprite_ = FindSprite(new_action);
     sprite_.setTextureRect(Sprites_Hero[number_sprite_][0]);
 }
 void Image_Object::ChangeActionTo(TypeAction new_action)
 {
     ChangeAction(new_action);
-    ChangeSprite(FindSprite(new_action));
+    ChangeSprite(new_action);
 }
 
 void Image_Object::UpdateSprite()
 {
     current_frame_ += SPEED_FRAME * (*current_time_);
 
-    if (this->action_ == TypeAction::Jump && current_frame_ > TIME_JUMPING) {
+    if ((this->action_ == TypeAction::Jump || action_ == TypeAction::JumpLeft || action_ == TypeAction::JumpRight) && current_frame_ > TIME_JUMPING) {
         ChangeActionTo(TypeAction::Fall);
         return;
     }
@@ -367,6 +364,11 @@ void Hero::ContinueAction()
     this->UpdateSprite();
     this->DisplaceSprite();
     this->DisplaceCoordinates();
+}
+void Hero::CorrectAction(TypeAction new_action)
+{
+    ChangeAction(new_action);
+    ChangeImage(new_action);
 }
 
 void Hero::ChangeWeapon(TypeWeapon typeweapon)

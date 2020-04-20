@@ -105,7 +105,8 @@ public:
 	sf::Sprite GetSprite() { return sprite_; }
 	
 	const int FindSprite(TypeAction new_action) const;
-	void ChangeSprite(const int new_sprite);
+	void ChangeSprite(TypeAction new_action);
+	void ChangeImage(TypeAction new_action);
 	
 	void UpdateSprite();
 	void DisplaceSprite();
@@ -140,6 +141,7 @@ public:
 
 	void DoAction(TypeAction new_action);  //we have to check it before, 
 	void ContinueAction();
+	void CorrectAction(TypeAction new_action); //not do it so frequantly
 
 private:
 
