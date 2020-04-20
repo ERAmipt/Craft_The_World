@@ -89,6 +89,8 @@ void Coord_Object::DisplaceCoordinates()
 //Should be in M:: space I think and easy to get using only Coord_Hero*----
 bool Coord_Object::IsEmptyRight(const M::Map& map)
 {
+    //x_ and y_ are the right-up coordinates
+
     int current_y = int(y_);
     int current_x = int(x_ + weight_);
     //constants in Constants.h
