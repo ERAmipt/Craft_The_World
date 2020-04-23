@@ -42,11 +42,12 @@ int main()
 
         map.update(0, sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
 
-        /*printf("X: %d\nY: %d\nSoft: %d\n", 
+        /*
+        printf("X: %d\nY: %d\nSoft: %d\n", 
             map.AbsCoords(sf::Mouse::getPosition()).x,
             map.AbsCoords(sf::Mouse::getPosition()).y,
             map.isSoft(sf::Mouse::getPosition()));
-            */
+        */  
 
         window.setView(map.view());
         window.clear();
@@ -114,7 +115,10 @@ bool CheckKeyboard(Hero& hero, const M::Map& map)
 bool CheckPermanentActions(Hero& hero, const M::Map& map)
 {
     TypeAction current_action = hero.GetAction();
-    if (current_action == TypeAction::Jump || current_action == TypeAction::JumpLeft || current_action == TypeAction::JumpRight) {
+    if (current_action == TypeAction::Jump || 
+        current_action == TypeAction::JumpLeft || 
+        current_action == TypeAction::JumpRight) 
+    {
         if (hero.IsEmptyUp(map)) {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && hero.IsEmptyLeft(map)) {
                 hero.CorrectAction(TypeAction::JumpLeft);
@@ -138,7 +142,10 @@ bool CheckPermanentActions(Hero& hero, const M::Map& map)
 
 TypeAction RecordinateAction(TypeAction hero_action, TypeAction new_action)
 {
-    if (hero_action == TypeAction::Fall || hero_action == TypeAction::FallRight || hero_action == TypeAction::FallLeft) {
+    if (hero_action == TypeAction::Fall || 
+        hero_action == TypeAction::FallRight || 
+        hero_action == TypeAction::FallLeft) 
+    {
         if (new_action == TypeAction::MoveLeft)
             return TypeAction::FallLeft;
         if (new_action == TypeAction::MoveRight)

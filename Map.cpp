@@ -74,6 +74,9 @@ sf::Vector2f M::Map::AbsCoords(int x, int y) const {
 	cur_x = cur_x / tile_.width() * tile_.blocks_x();
 	cur_y = cur_y / tile_.height() * tile_.blocks_y();
 
+	printf("x: %d; y: %d\n", x, y);
+	//printf("left: %g\ntop: %g\ncur_x: %g\ncur_y: %g\n", left, top, cur_x, cur_y);
+
 	return sf::Vector2f(cur_x, cur_y);
 }
 sf::Vector2f M::Map::AbsCoords(sf::Vector2u coords) const {
@@ -83,17 +86,24 @@ sf::Vector2f M::Map::AbsCoords(sf::Vector2i coords) const {
 	return AbsCoords(coords.x, coords.y);
 }
 
-void M::Map::update(int delta, int x, int y) {
+void M::Map::update(float delta, int x, int y) {
 	const int scroll_area = 100;
 	const int scroll_speed = 20;
 	
-	view_.zoom(float(delta) / 10 + 1);
-	if (view_.getCenter().x < view_.getSize().x / 2 ||
-		view_.getCenter().x + view_.getSize().x / 2 > tile_.width() ||
-		view_.getCenter().y < view_.getSize().y / 2 ||
-		view_.getCenter().y + view_.getSize().y / 2 > tile_.height())
-	view_.zoom(float(delta * (-1)) / 10 + 1);
 	
+	if (delta != 0) {
+		(delta > 0) ? delta = 1.25 : delta = 0.8;
+		view_.zoom(delta);
+
+		if (view_.getCenter().x < view_.getSize().x / 2 ||
+			view_.getCenter().x + view_.getSize().x / 2 > tile_.width() ||
+			view_.getCenter().y < view_.getSize().y / 2 ||
+			view_.getCenter().y + view_.getSize().y / 2 > tile_.height())
+		{
+			view_.zoom(1 / delta);
+		}
+	}
+
 	cur_width_ = view_.getSize().x;
 	cur_height_ = view_.getSize().y;
 
@@ -121,12 +131,12 @@ void M::Map::update(int delta, int x, int y) {
 }
 
 bool M::Map::isSoft(sf::Vector2u coords) const {
-	return M::Blocks[level[int(AbsCoords(coords).x) + int(AbsCoords(coords).y) * 100]].isSoft();
+	return M::Blocks[level[int(AbsCoords(coords).x) + int(AbsCoords(coords).y) * tile_.blocks_y()]].isSoft();
 }
 bool M::Map::isSoft(sf::Vector2i coords) const {
-	return M::Blocks[level[int(AbsCoords(coords).x) + int(AbsCoords(coords).y) * 100]].isSoft();
+	return M::Blocks[level[int(AbsCoords(coords).x) + int(AbsCoords(coords).y) * tile_.blocks_y()]].isSoft();
 }
 bool M::Map::isSoft(int x, int y) const {
-	return M::Blocks[level[int(AbsCoords(x, y).x) + int(AbsCoords(x, y).y) * 30]].isSoft();
+	return M::Blocks[level[int(AbsCoords(x, y).x) + int(AbsCoords(x, y).y) * tile_.blocks_y()]].isSoft();
 }
 

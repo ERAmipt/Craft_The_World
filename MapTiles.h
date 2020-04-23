@@ -22,11 +22,11 @@ namespace M {
 
 
 	private:
-		unsigned int blx_;
-		unsigned int bly_;
-		sf::Vector2u tile_size_;
-		unsigned int width_;
-		unsigned int height_;
+		unsigned int blx_; //number of blocks on the X
+		unsigned int bly_; //number of blocks on the Y
+		sf::Vector2u tile_size_; // the one block size
+		unsigned int width_;     // The TOTAL map width (number blocks on the X * tile_size_.x)
+		unsigned int height_;    // The TOTAL map height (number blocks on the Y * tile_size_.y)
 		int *level_;
 		
 	};

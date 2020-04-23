@@ -46,6 +46,8 @@ namespace M {
 	public:
 
 		Map(int map_number);
+		sf::View   view() { return view_; };
+		M::MapTile tile() { return tile_; };
 
 		/////////////////////////////////////////////////////
 		// Update map's view. Should be called every time user
@@ -54,9 +56,7 @@ namespace M {
 		// Usage: map.update(0, sf::Mouse::getPosition().x, 
 		//	     				sf::Mouse::getPosition().y);
 		/////////////////////////////////////////////////////
-		void update(int delta, int x, int y);
-
-		sf::View view() { return view_; };
+		void update(float delta, int x, int y);
 
 		/////////////////////////////////////////////////////
 		// Return absolute coordinates of the desired 
