@@ -6,8 +6,8 @@
 float MAIN_TIME = 0;
 float CURRENT_TIME = 0;
 
-bool AnalyseEvent(sf::Event& event, M::Map& map);
-bool CheckKeyboard(Hero& hero, const M::Map& map);
+bool AnalyseEvent(sf::Event& event, M::Map& map, Hero& hero);
+bool CheckKeyboard(M::Map& map, Hero& hero);
 bool CheckPermanentActions(Hero& hero, const M::Map& map);
 TypeAction RecordinateAction(TypeAction hero_action, TypeAction new_action);
 
@@ -30,13 +30,13 @@ int main()
         //MAIN_TIME is global
 
         while (window.pollEvent(event))
-        {   
-            if (!AnalyseEvent(event, map)) {
+        {
+            if (!AnalyseEvent(event, map, first_hero)) {
                 window.close();
                 break;
             }
         }
-        if (!CheckKeyboard(first_hero, map)) {
+        if (!CheckKeyboard(map, first_hero)) {
             window.close();
         }
 
@@ -59,24 +59,23 @@ int main()
     return 0;
 }
 
-
-bool AnalyseEvent(sf::Event& event, M::Map& map)
+bool AnalyseEvent(sf::Event& event, M::Map& map, Hero& hero)
 {
-    if (event.type == sf::Event::MouseWheelScrolled)
-        map.update(event.mouseWheelScroll.delta, event.mouseWheelScroll.x, event.mouseWheelScroll.y);
+    if (event.type == sf::Event::MouseWheelScrolled) {
+        const float cur_delta = event.mouseWheelScroll.delta;
+        map.update(cur_delta, event.mouseWheelScroll.x, event.mouseWheelScroll.y);
+        hero.Zoom(cur_delta);
+    }
     if (event.type == sf::Event::MouseMoved)
     {
         //std::cout << "new mouse x: " << event.mouseMove.x << std::endl;  
         //std::cout << "new mouse y: " << event.mouseMove.y << std::endl;
     }
-    
+
     if (event.type == sf::Event::Closed)
         return false;
-    return true;
 }
-
-
-bool CheckKeyboard(Hero& hero, const M::Map& map) 
+bool CheckKeyboard(M::Map& map, Hero& hero)
 {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
         return false;
@@ -106,11 +105,11 @@ bool CheckKeyboard(Hero& hero, const M::Map& map)
     }
 
     new_action = RecordinateAction(hero.GetAction(), new_action);
-    
     hero.DoAction(hero.CheckOportunityAction(new_action, map));
 
     return true;
 }
+
 
 bool CheckPermanentActions(Hero& hero, const M::Map& map)
 {

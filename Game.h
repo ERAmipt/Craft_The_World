@@ -71,8 +71,8 @@ public:
 	TypeAction CheckOportunityAction(TypeAction new_action, const M::Map& map);
 
 
-	float GetX() const { return x_; }
-	float GetY() const { return y_; }
+	float GetX() const { return	coord.x; }
+	float GetY() const { return coord.y; }
 	float GetSpeedX() const { return speed_x_; }
 	float GetSppedY() const { return speed_y_; }
 	int GetWeight() const { return weight_; }
@@ -81,8 +81,7 @@ public:
 
 protected:
 
-	float x_;
-	float y_;
+	sf::Vector2f coord;
 	float speed_x_;
 	float speed_y_;
 	int weight_;
@@ -113,6 +112,7 @@ public:
 
 	void ChangeActionTo(TypeAction new_action);
 
+	void Zoom(float delta);
 	void Draw(sf::RenderWindow& window);
 
 private:
@@ -122,6 +122,7 @@ private:
 	sf::Sprite sprite_;
 	int number_sprite_;
 	double current_frame_;  
+
 };
 
 

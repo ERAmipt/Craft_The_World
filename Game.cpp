@@ -2,8 +2,7 @@
 
 Coord_Object::Coord_Object() {}
 Coord_Object::Coord_Object(float new_x, float new_y, int new_weight, int new_height, float* current_time) :
-    x_(new_x),
-    y_(new_y),
+    coord(new_x, new_y),
     speed_x_(0),
     speed_y_(0),
     weight_(new_weight),
@@ -82,8 +81,8 @@ void Coord_Object::ChangeAction(TypeAction new_action)
 
 void Coord_Object::DisplaceCoordinates()
 {
-    x_ += speed_x_ * (*current_time_);
-    y_ += speed_y_ * (*current_time_);
+    coord.x += speed_x_ * (*current_time_);
+    coord.y += speed_y_ * (*current_time_);
 }
 
 //Should be in M:: space I think and easy to get using only Coord_Hero*----
@@ -91,8 +90,8 @@ bool Coord_Object::IsEmptyRight(const M::Map& map)
 {
     //x_ and y_ are the right-up coordinates
 
-    int current_y = int(y_);
-    int current_x = int(x_ + weight_);
+    int current_y = int(coord.y);
+    int current_x = int(coord.x + weight_);
     //constants in Constants.h
     for (int i = 0; i < height_ / BLOCK_Y; ++i) {
         if (!map.isSoft(current_x, current_y))
@@ -106,10 +105,10 @@ bool Coord_Object::IsEmptyRight(const M::Map& map)
 }
 bool Coord_Object::IsEmptyLeft(const M::Map& map)
 {
-    int current_y = int(y_);
+    int current_y = int(coord.y);
 
     for (int i = 0; i < height_ / BLOCK_Y; ++i) {
-        if (!map.isSoft(int(x_), current_y))
+        if (!map.isSoft(int(coord.x), current_y))
             return false;
         current_y += BLOCK_Y;
     }
@@ -118,9 +117,9 @@ bool Coord_Object::IsEmptyLeft(const M::Map& map)
 }
 bool Coord_Object::IsEmptyUp(const M::Map& map)
 {
-    int current_x = int(x_);
+    int current_x = int(coord.x);
     for (int i = 0; i < weight_ / BLOCK_X; ++i) {
-        if (!map.isSoft(current_x, int(y_)))
+        if (!map.isSoft(current_x, int(coord.y)))
             return false;
         current_x += BLOCK_X;
     }
@@ -128,8 +127,8 @@ bool Coord_Object::IsEmptyUp(const M::Map& map)
 }
 bool Coord_Object::IsEmptyDown(const M::Map& map)
 {
-    int current_x = int(x_);
-    int current_y = int(y_ + height_);
+    int current_x = int(coord.x);
+    int current_y = int(coord.y + height_);
 
     for (int i = 0; i < weight_ / BLOCK_X; ++i) {
         if (!map.isSoft(current_x, current_y))
@@ -267,7 +266,7 @@ void Image_Object::UpdateSprite()
 }
 void Image_Object::DisplaceSprite()
 {
-    sprite_.setPosition(this->x_, this->y_);
+    sprite_.setPosition(this->coord.x, this->coord.y);
 }
 const int Image_Object::FindSprite(TypeAction new_action) const
 {
@@ -324,6 +323,13 @@ const int Image_Object::FindSprite(TypeAction new_action) const
     return 0;
 }
 
+void Image_Object::Zoom(float delta)
+{
+    float zoom_coff = 1 + delta / ZOOMING_COOF;
+    weight_ *= zoom_coff;
+    height_ *= zoom_coff;
+    sprite_.scale(zoom_coff, zoom_coff);
+}
 void Image_Object::Draw(sf::RenderWindow& window)
 {
     window.draw(sprite_);
