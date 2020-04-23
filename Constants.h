@@ -63,7 +63,7 @@ enum class TypePickax {
 
 const int BLOCK_X = 32; //waiting for delete
 const int BLOCK_Y = 32; //waiting for delete
-
+const float ZOOMING_COOF = 10;
 
 const int COUNT_SPRITES = 27;
 
@@ -84,7 +84,7 @@ const float TIME_JUMPING = (float)13.0;
 const float TIME_LANDING = (float)5.0;
 
 
-const float SPEED_FRAME = (float)0.02;
+const float SPEED_FRAME = (float)0.001;
 const float SPEED_RIGHT = (float)0.35;
 const float SPEED_UP = (float)0.6;
 
